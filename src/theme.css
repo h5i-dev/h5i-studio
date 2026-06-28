@@ -32,9 +32,9 @@
   --ink-dim: #92accc;
   --ink-faint: #5d77a0;
 
-  --f-display: "Orbitron", "Rajdhani", ui-sans-serif, system-ui, sans-serif;
-  --f-ui: "Rajdhani", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --f-mono: "Share Tech Mono", ui-monospace, "SFMono-Regular", "Cascadia Code", monospace;
+  --f-display: "Orbitron", "Exo 2", ui-sans-serif, system-ui, sans-serif;
+  --f-ui: "Exo 2", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Cascadia Code", monospace;
 
   --r: 4px;
   --bracket: 14px;
