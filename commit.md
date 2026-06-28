@@ -329,3 +329,16 @@ Primary development branch
 
 ---
 
+## Commit 6a417b18 — 2026-06-28 19:50 UTC
+
+### Branch Purpose
+Primary development branch
+
+### Previous Progress Summary
+
+
+### This Commit's Contribution
+h5i-studio export <team> --out run.gif renders the Mission Replay to an animated GIF (headless Playwright + gifenc/pngjs, no ffmpeg; Playwright runtime-optional). One frame per beat, loops. 47 tests pass.
+
+---
+
