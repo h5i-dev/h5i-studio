@@ -238,3 +238,16 @@ Primary development branch
 
 ---
 
+## Commit 6a4169f9 — 2026-06-28 18:37 UTC
+
+### Branch Purpose
+Primary development branch
+
+### Previous Progress Summary
+
+
+### This Commit's Contribution
+Tapping a crew figure opens AgentProfile (env/isolation/runtime/state/telemetry/flight-plan). Removed Squadron + Launch Authority panels; console now Candidates+Comms. 45 tests pass.
+
+---
+

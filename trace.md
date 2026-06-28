@@ -435,3 +435,9 @@ _[Checkpoint: 6a415ffd — edited src/lib/replay.ts; edited src/components/bridg
 [18:35:44] ACT: edited test/e2e.test.mjs
 [18:36:53] OBSERVE: read profile.png
 [18:37:17] ACT: edited README.md
+
+
+---
+_[Checkpoint: 6a4169f9 — Squadron→tap-to-dossier, removed Launch Authority panel]_
+---
+
