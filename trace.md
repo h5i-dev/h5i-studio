@@ -23,3 +23,4 @@
 [13:39:56] OBSERVE: read team.rs
 [13:39:57] OBSERVE: read assets.json
 [13:39:58] OBSERVE: read characters.json
+[13:39:58] OBSERVE: read team.rs
