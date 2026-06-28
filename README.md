@@ -36,16 +36,18 @@ The data console, one click away:
 
 ## The Bridge (the centerpiece)
 
-The default view of an operation is the **Bridge** — a stage where the run is
-performed:
+The default view of an operation is the **Bridge** — a spaceship *meeting room*
+(think Among Us) where the run is performed:
 
 - **Crew** — each `h5i team` agent is a character drawn procedurally in its own
-  livery (no image assets). Posture follows the story: bobbing on standby,
-  leaning in with a speech bubble *on comms*, heads-down *reviewing*, shaking and
-  greyed-out when the *verifier fails*, rising on a golden beam when *launched*.
-- **Mission Director** — the ship's-AI host (the fleet analogue of agmsg-office's
-  boss character) opens the operation, calls the round sealed, and announces the
-  **GO / NO-GO** verdict, turning green or red.
+  livery (no image assets), **scattered around the room** with depth (nearer crew
+  larger). Posture follows the story: bobbing on standby, leaning in with a speech
+  bubble *on comms*, heads-down *reviewing*, shaking and greyed-out when the
+  *verifier fails*, rising on a golden beam when *launched*.
+- **Central computer** — the Mission Director sits in the **middle of the room** as
+  a holographic AI core on a server pedestal (the fleet analogue of
+  agmsg-office's boss character). It opens the operation, calls the round sealed,
+  and announces the **GO / NO-GO** verdict, the whole core turning green or red.
 - **Speech bubbles + caption** carry the *actual* text — a review body, a
   discussion message, "candidate sealed."
 - **⛶ THEATER** expands the stage full-screen; **▣ CONSOLE** brings back the data
@@ -73,8 +75,9 @@ Fleet Command renders every part of the lifecycle:
 | **Flight Plan** (modal) | a submission's diff / summary / test evidence | `team artifact show` |
 | **Launch Authority** | GO/HOLD/NO-GO verdict, deciding rule, reasons | folded from `verdict` / `no_verdict` events |
 | **Comms Channel** | peer reviews, grants, discussion, crew radio | folded from events + `msg history` |
-| **Flight Recorder** | the full append-only event log | `team status` `events[]` |
-| **Nav Log** | shared reasoning workspace (goal, milestones, trace) | `recall context show` |
+
+The full event log still drives the replay scrubber; the timeline is shown there
+rather than as a separate panel, to keep the meeting room the focus.
 
 The console polls continuously (4 s on an open deck, 8 s ambient) with a LIVE /
 IDLE / LOST uplink indicator.

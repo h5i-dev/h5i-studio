@@ -2,15 +2,15 @@ import { useMemo } from "react";
 import type { TeamDetail } from "../../types";
 import { computeBeat, DIRECTOR, type ActiveSource } from "../../lib/performance";
 import { phaseDef } from "../../lib/phases";
+import { hash01 } from "../../lib/format";
 import { CrewActor } from "./CrewActor";
 import { HostCore } from "./HostCore";
 
 /**
- * The Bridge — the stage where the operation is *performed*. Each agent is a
- * crew member whose posture follows the scene; the Mission Director narrates;
- * the active beat (replay cursor, or the latest event when live) decides who is
- * speaking and what they say. This is the centrepiece — the data console below
- * is the supporting detail.
+ * The Bridge — a spaceship meeting room where the operation is *performed*. The
+ * crew are scattered around a CENTRAL COMPUTER (the Mission Director); each
+ * agent's posture follows the scene beat (replay cursor, or the latest event
+ * when live), and whoever is active speaks. This is the centrepiece.
  */
 export function Bridge({
   detail,
@@ -30,14 +30,20 @@ export function Bridge({
   const beat = useMemo(() => computeBeat(detail, active, crew), [detail, active, crew]);
   const agents = detail.run.agents;
 
-  // Lay the crew out along a gentle arc across the lower stage.
-  const positions = useMemo(() => {
+  // Scatter the crew around the central computer — seats around a round table.
+  const placed = useMemo(() => {
     const n = agents.length || 1;
-    return agents.map((_, i) => {
-      const t = n === 1 ? 0.5 : i / (n - 1);
-      const x = 30 + t * 60; // crew occupy centre-right; Director presides at left
-      const y = 58 + Math.sin(t * Math.PI) * -8 + (i % 2 === 0 ? 0 : 6);
-      return { x, y };
+    return agents.map((a, i) => {
+      const jitterA = (hash01(a.agent_id + "a") - 0.5) * 0.45;
+      // Offset by half a slot so no one sits dead-top-centre (where the
+      // Director's speech bubble rises) — crew straddle the centre instead.
+      const ang = (i / n) * Math.PI * 2 - Math.PI / 2 + Math.PI / n + jitterA;
+      const jr = 0.82 + hash01(a.agent_id + "r") * 0.32;
+      const x = 50 + Math.cos(ang) * 31 * jr;
+      const y = 52 + Math.sin(ang) * 23 * jr;
+      const depth = Math.min(1, Math.max(0, (y - 28) / 50)); // 0 (back) .. 1 (front)
+      const scale = 0.72 + depth * 0.62;
+      return { agent: a, x, y, scale, z: Math.round(y * 12) };
     });
   }, [agents]);
 
@@ -47,9 +53,18 @@ export function Bridge({
     : null;
 
   return (
-    <section className={`bridge${focused ? " focused" : ""}`}>
-      <div className="bridge-grid" aria-hidden />
-      <div className="bridge-horizon" aria-hidden />
+    <section className={`bridge room${focused ? " focused" : ""}`}>
+      {/* room backdrop layers */}
+      <div className="room-space" aria-hidden />
+      <div className="room-hull" aria-hidden>
+        <span className="viewport vp1" />
+        <span className="viewport vp2" />
+        <span className="station st1" />
+        <span className="station st2" />
+        <span className="station st3" />
+        <span className="station st4" />
+      </div>
+      <div className="room-floor" aria-hidden />
 
       <div className="bridge-hud">
         <span className="bridge-phase">
@@ -61,19 +76,25 @@ export function Bridge({
         </button>
       </div>
 
-      <HostCore speaking={beat.director.speaking} line={beat.director.line} mood={beat.director.mood} />
-
       <div className="stage">
         {agents.length === 0 && <div className="stage-empty">— awaiting crew assignment —</div>}
-        {agents.map((a, i) => (
+
+        {/* central computer sits mid-depth; front crew overlap it */}
+        <div className="host-anchor" style={{ zIndex: Math.round(52 * 12) + 1 }}>
+          <HostCore speaking={beat.director.speaking} line={beat.director.line} mood={beat.director.mood} />
+        </div>
+
+        {placed.map((p) => (
           <CrewActor
-            key={a.agent_id}
-            name={a.agent_id}
-            state={beat.states[a.agent_id] ?? "idle"}
-            line={beat.speaker === a.agent_id ? beat.line : null}
-            speaking={beat.speaker === a.agent_id}
-            x={positions[i].x}
-            y={positions[i].y}
+            key={p.agent.agent_id}
+            name={p.agent.agent_id}
+            state={beat.states[p.agent.agent_id] ?? "idle"}
+            line={beat.speaker === p.agent.agent_id ? beat.line : null}
+            speaking={beat.speaker === p.agent.agent_id}
+            x={p.x}
+            y={p.y}
+            scale={p.scale}
+            z={p.z}
           />
         ))}
       </div>

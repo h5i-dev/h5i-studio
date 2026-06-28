@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { api } from "./api";
-import type { ContextView, Health, Message, RosterAgent, TeamRun } from "./types";
+import type { Health, Message, RosterAgent, TeamRun } from "./types";
 import { usePoll } from "./lib/usePoll";
 import { Starfield } from "./components/Starfield";
 import { FleetOverview } from "./components/FleetOverview";
@@ -18,7 +18,6 @@ export default function App() {
   const teams = usePoll<TeamRun[]>(useCallback((s: AbortSignal) => api.teams(s), []), SLOW);
   const messages = usePoll<Message[]>(useCallback((s: AbortSignal) => api.messages(80, s), []), FAST);
   const roster = usePoll<RosterAgent[]>(useCallback((s: AbortSignal) => api.roster(s), []), SLOW);
-  const context = usePoll<ContextView>(useCallback((s: AbortSignal) => api.context(s), []), SLOW);
   const health = usePoll<Health>(useCallback((s: AbortSignal) => api.health(s), []), SLOW);
 
   // Deep-link the selected team via the URL hash.
@@ -93,7 +92,6 @@ export default function App() {
           teamId={selected}
           messages={messages.data ?? []}
           roster={roster.data ?? []}
-          context={context.data ?? null}
           intervalMs={FAST}
           onBack={back}
           onError={setDeckLive}

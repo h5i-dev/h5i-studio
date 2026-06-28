@@ -122,9 +122,13 @@ test("opening the hero mission renders every deck panel + diff modal", async (t)
   await page.waitForTimeout(600);
 
   const heads = await page.$$eval(".panel-head h3", (els) => els.map((e) => e.textContent));
-  for (const want of ["Candidates", "Launch Authority", "Squadron", "Flight Recorder", "Comms Channel"]) {
+  for (const want of ["Candidates", "Launch Authority", "Squadron", "Comms Channel"]) {
     assert.ok(heads.includes(want), `expected panel "${want}", saw ${JSON.stringify(heads)}`);
   }
+  // The Bridge (meeting room) is the centrepiece: central computer + crew.
+  assert.ok(await page.$(".bridge.room"), "meeting room present");
+  assert.ok(await page.$(".host .host-rig"), "central computer present");
+  assert.equal((await page.$$(".stage .actor")).length, 3, "crew scattered in the room");
   // The deck header and its REPLAY control must actually be visible (not painted
   // over by the starfield). isVisible() guards display/size; the real click in
   // the replay tests additionally guards against occlusion.
@@ -167,9 +171,8 @@ test("Mission Replay reconstructs earlier state, then returns to live", async (t
   assert.ok(curPhase.includes("SEALED"), `expected SEALED at round seal, saw ${JSON.stringify(curPhase)}`);
   assert.ok(!(await page.$(".gng-lamp.go")), "no GO verdict mid-mission");
   assert.ok(await page.$(".gng-lamp.nogo"), "Launch Authority is NO-GO before verification");
-  // Flight recorder shows only the revealed events.
-  const logRows = (await page.$$(".log .log-row")).length;
-  assert.equal(logRows, 8, "recorder shows exactly the 8 revealed events");
+  // Mid-mission the candidates are sealed but unverified (no GO gate yet).
+  assert.ok((await page.$$(".cand")).length >= 1, "candidates reconstructed at the seal");
 
   // Exit replay → back to the live GO state.
   await page.click(".rb-exit");

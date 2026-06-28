@@ -25,6 +25,8 @@ export function CrewActor({
   speaking,
   x,
   y,
+  scale = 1,
+  z = 1,
 }: {
   name: string;
   state: ActorState;
@@ -32,6 +34,8 @@ export function CrewActor({
   speaking: boolean;
   x: number;
   y: number;
+  scale?: number;
+  z?: number;
 }) {
   const hue = agentHue(name);
   const dur = 4 + hash01(name) * 2.5; // 4–6.5s ambient bob, desynced per agent
@@ -44,6 +48,8 @@ export function CrewActor({
       style={{
         left: `${x}%`,
         top: `${y}%`,
+        zIndex: speaking ? 900 : z,
+        ["--scale" as string]: String(scale),
         ["--hue" as string]: String(hue),
         ["--bob" as string]: `${dur}s`,
         ["--bob-delay" as string]: `${delay}s`,

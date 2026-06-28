@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { api, ApiError } from "../api";
-import type { CompareRow, ContextView, Message, RosterAgent, TeamDetail } from "../types";
+import type { CompareRow, Message, RosterAgent, TeamDetail } from "../types";
 import { phaseDef, phaseTone, isStalled } from "../lib/phases";
 import { relTime, shortOid } from "../lib/format";
 import { usePoll } from "../lib/usePoll";
@@ -16,9 +16,7 @@ import { DiffViewer } from "./DiffViewer";
 import { SquadronRoster } from "./panels/SquadronRoster";
 import { CandidatePanel } from "./panels/CandidatePanel";
 import { GoNoGo } from "./panels/GoNoGo";
-import { MissionLog } from "./panels/MissionLog";
 import { CommsChannel } from "./panels/CommsChannel";
-import { ContextStrip } from "./panels/ContextStrip";
 
 interface TimelineItem {
   ts: string;
@@ -30,7 +28,6 @@ export function MissionDeck({
   teamId,
   messages,
   roster,
-  context,
   intervalMs,
   onBack,
   onError,
@@ -38,7 +35,6 @@ export function MissionDeck({
   teamId: string;
   messages: Message[];
   roster: RosterAgent[];
-  context: ContextView | null;
   intervalMs: number;
   onBack: () => void;
   onError: (live: boolean) => void;
@@ -115,8 +111,6 @@ export function MissionDeck({
       : null;
 
   const frameTs = replay.active && cursor > 0 ? timeline[cursor - 1].ts : null;
-  const highlightId =
-    active?.type === "event" ? active.event.id : eventsPrefix.length ? eventsPrefix[eventsPrefix.length - 1].id : null;
 
   const shownMessages = useMemo(() => {
     if (!replay.active || !frameTs) return messages;
@@ -137,7 +131,7 @@ export function MissionDeck({
   }
   if (!view || !live) return null;
 
-  const { run, events, derived } = view;
+  const { run, derived } = view;
   const pd = phaseDef(run.phase);
   const tone = phaseTone(run.phase);
   const shownCompare = replay.active ? [] : compare.data ?? [];
@@ -189,6 +183,9 @@ export function MissionDeck({
           <div className="deck-col">
             <CandidatePanel run={run} verdict={derived.verdict} onOpen={(id, owner) => setModal({ id, owner })} />
             <GoNoGo run={run} verdict={derived.verdict} />
+          </div>
+          <div className="deck-col">
+            <SquadronRoster agents={run.agents} compare={shownCompare} roster={roster} />
             <CommsChannel
               reviews={derived.reviews}
               discussions={derived.discussions}
@@ -196,11 +193,6 @@ export function MissionDeck({
               messages={shownMessages}
               crew={crew}
             />
-          </div>
-          <div className="deck-col">
-            <SquadronRoster agents={run.agents} compare={shownCompare} roster={roster} />
-            <MissionLog events={events} highlightId={highlightId} />
-            <ContextStrip ctx={context} />
           </div>
         </div>
         )}

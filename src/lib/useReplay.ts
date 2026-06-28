@@ -17,8 +17,8 @@ export interface Replay {
 }
 
 const SPEEDS = [1, 2, 4, 8];
-const STEP_MS = 1100; // ≈ 1s between beats at 1×
-const END_HOLD_MS = 2200; // dwell on the final beat before the loop restarts
+const STEP_MS = 2100; // dwell per beat at 1× — long enough to read the dialogue
+const END_HOLD_MS = 3200; // dwell on the final beat before the loop restarts
 
 /**
  * Drives mission-replay playback over a fixed number of timeline beats. Playback
