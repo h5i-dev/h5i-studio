@@ -413,3 +413,4 @@ _[Checkpoint: 6a415ac9 — edited src/components/MissionDeck.tsx; edited README.
 _[Checkpoint: 6a415ffd — edited src/lib/replay.ts; edited src/components/bridge/Bridge.tsx; edited src/components/bridge/Bridge.tsx]_
 ---
 
+[18:24:10] ACT: wrote src/components/AgentProfile.tsx
