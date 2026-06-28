@@ -43,3 +43,16 @@ React+Vite+Express viewer over real h5i CLI (read-only). Space mission-control t
 
 ---
 
+## Commit 6a413bee — 2026-06-28 15:21 UTC
+
+### Branch Purpose
+Primary development branch
+
+### Previous Progress Summary
+
+
+### This Commit's Contribution
+Added bin CLI (npx-able), publish-ready package.json (files ship built dist+server+bin, prepack build, provenance), CI + release GitHub Actions. Verified CLI launch + clean npm pack tarball. Awaiting user go-ahead to actually publish (needs NPM_TOKEN).
+
+---
+
