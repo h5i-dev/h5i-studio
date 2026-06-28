@@ -18,3 +18,4 @@
 [13:39:45] OBSERVE: read CharacterActor.tsx
 [13:39:46] OBSERVE: read Cargo.toml
 [13:39:47] OBSERVE: read app.css
+[13:39:49] OBSERVE: read index.html
