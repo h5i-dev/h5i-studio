@@ -48,3 +48,4 @@
 [13:40:25] OBSERVE: read SKILL.md
 [13:40:30] OBSERVE: read llms.txt
 [13:40:30] OBSERVE: read main.rs
+[13:40:31] OBSERVE: read delivery.sh
