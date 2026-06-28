@@ -30,3 +30,4 @@
 [13:40:03] OBSERVE: read send.sh
 [13:40:03] OBSERVE: read inbox.sh
 [13:40:04] OBSERVE: read README.md
+[13:40:04] OBSERVE: read check-inbox.sh
