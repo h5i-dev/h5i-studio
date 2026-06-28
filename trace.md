@@ -55,3 +55,4 @@
 [13:40:39] OBSERVE: read env.rs
 [13:40:42] OBSERVE: read objects.rs
 [13:40:43] OBSERVE: read hooks-json.sh
+[13:40:44] OBSERVE: read server.rs
