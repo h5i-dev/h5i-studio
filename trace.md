@@ -20,3 +20,4 @@
 [13:39:47] OBSERVE: read app.css
 [13:39:49] OBSERVE: read index.html
 [13:39:50] OBSERVE: read tsconfig.app.json
+[13:39:56] OBSERVE: read team.rs
