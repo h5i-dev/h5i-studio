@@ -53,3 +53,4 @@
 [13:40:37] OBSERVE: read msg.rs
 [13:40:38] OBSERVE: read watch.sh
 [13:40:39] OBSERVE: read env.rs
+[13:40:42] OBSERVE: read objects.rs
