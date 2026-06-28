@@ -27,3 +27,4 @@
 [13:40:00] OBSERVE: read driver-interface.md
 [13:40:00] OBSERVE: read storage.sh
 [13:40:02] OBSERVE: read generate-portrait-spritesheets.py
+[13:40:03] OBSERVE: read send.sh
