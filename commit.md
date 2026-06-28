@@ -69,3 +69,16 @@ Added bin CLI (npx-able), publish-ready package.json (files ship built dist+serv
 
 ---
 
+## Commit 6a4140a9 — 2026-06-28 15:41 UTC
+
+### Branch Purpose
+Primary development branch
+
+### Previous Progress Summary
+
+
+### This Commit's Contribution
+npx @h5i/studio --demo shows a bundled 3-team fleet; ◉ REPLAY reconstructs deck state over the event timeline (pure client fold). 41 tests pass incl demo + replay e2e. Verified visually.
+
+---
+
