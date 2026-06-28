@@ -45,12 +45,14 @@
     "start": "node bin/h5i-studio.mjs",
     "typecheck": "tsc -b --noEmit",
     "test": "node --test test/parse.test.mjs test/derive.test.mjs test/demo.test.mjs test/api.test.mjs",
-    "test:e2e": "node --test test/e2e.test.mjs",
+    "test:e2e": "node --test test/e2e.test.mjs test/gif.test.mjs",
     "test:all": "node --test test/",
     "prepack": "npm run build"
   },
   "dependencies": {
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "gifenc": "^1.0.3",
+    "pngjs": "^7.0.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.23",

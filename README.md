@@ -94,6 +94,23 @@ verdict is reached. Reconstruction is pure and client-side (it folds the event
 prefix the same way the server's `derive()` does), so it works on live *and*
 demo data. Play / pause, 1–8× speed, scrub, click any event tick, or jump to live.
 
+### Export a replay as a GIF
+
+Render any operation's replay to a shareable animated GIF from the command line:
+
+```bash
+h5i-studio export <team> -o run.gif        # in an h5i repo
+h5i-studio export --demo nebula-auth        # from the bundled fleet
+h5i-studio export my-run --width 1200 --frame-ms 1800
+```
+
+It drives the real replay headlessly (one frame per beat — crew posture, speech
+bubbles, the verdict — with the central computer at the centre) and encodes the
+GIF in-process (no ffmpeg). Options: `--out`, `--width`/`--height`, `--frame-ms`
+(pace), `--repo`/`--bin`/`--demo`. Needs Playwright + Chromium once:
+`npm i -D playwright && npx playwright install chromium` (kept out of the
+package's runtime deps so a normal install stays lean).
+
 ### Demo mode
 
 `--demo` serves a bundled, self-contained fleet — three missions including a
@@ -238,6 +255,8 @@ npm run test:all # everything
 - **`test/e2e.test.mjs`** — drives a real Chromium via Playwright, asserting the
   deck renders from live data with no runtime errors. Self-skips when the bundle
   isn't built or no browser is available.
+- **`test/gif.test.mjs`** — runs the replay→GIF exporter end-to-end and asserts a
+  valid, non-trivial animated GIF is produced (same self-skip guards).
 
 ---
 

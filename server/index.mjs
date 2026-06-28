@@ -61,10 +61,12 @@ export function startServer(opts = {}) {
     const server = app.listen(port, host);
     server.once("listening", () => {
       const displayHost = host === "0.0.0.0" ? "localhost" : host;
+      const addr = server.address();
+      const actualPort = addr && typeof addr === "object" ? addr.port : port;
       resolve({
         server,
-        url: `http://${displayHost}:${port}`,
-        port,
+        url: `http://${displayHost}:${actualPort}`,
+        port: actualPort,
         host,
         demo,
         repo: demo ? "demo://nebula-fleet" : REPO,

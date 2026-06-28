@@ -14,6 +14,96 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkg = JSON.parse(readFileSync(join(__dirname, "..", "package.json"), "utf8"));
 
+// ── `export` / `gif` subcommand: render a team's replay to an animated GIF ───
+if (process.argv[2] === "export" || process.argv[2] === "gif") {
+  await runExport(process.argv.slice(3));
+  process.exit(0);
+}
+
+async function runExport(argv) {
+  const opts = { team: undefined, out: undefined, width: undefined, height: undefined, frameMs: undefined, repo: undefined, bin: undefined, demo: false };
+  const want = (i, name) => {
+    const v = argv[i + 1];
+    if (v === undefined) fail(`option ${name} needs a value`);
+    return v;
+  };
+  for (let i = 0; i < argv.length; i++) {
+    const a = argv[i];
+    switch (a) {
+      case "-h":
+      case "--help":
+        return exportHelp();
+      case "-o":
+      case "--out":
+        opts.out = want(i++, a);
+        break;
+      case "--width":
+        opts.width = Number(want(i++, a));
+        break;
+      case "--height":
+        opts.height = Number(want(i++, a));
+        break;
+      case "--frame-ms":
+        opts.frameMs = Number(want(i++, a));
+        break;
+      case "--settle-ms":
+        opts.settleMs = Number(want(i++, a));
+        break;
+      case "-r":
+      case "--repo":
+        opts.repo = want(i++, a);
+        break;
+      case "--bin":
+        opts.bin = want(i++, a);
+        break;
+      case "--demo":
+        opts.demo = true;
+        break;
+      default:
+        if (a.startsWith("-")) fail(`unknown option: ${a}`);
+        else if (!opts.team) opts.team = a;
+        else fail(`unexpected argument: ${a}`);
+    }
+  }
+  if (!opts.team) fail("export needs a team id: h5i-studio export <team> [--out file.gif]");
+
+  const { exportReplayGif } = await import("../server/gif.mjs");
+  try {
+    await exportReplayGif(opts);
+  } catch (err) {
+    console.error(`\n  ✕ ${err?.message ?? err}\n`);
+    process.exit(1);
+  }
+}
+
+function exportHelp() {
+  console.log(`
+  ▟▙  H5I FLEET COMMAND  ·  export
+
+  Render a team operation's Mission Replay to an animated GIF.
+
+  USAGE
+    h5i-studio export <team> [options]
+
+  OPTIONS
+    -o, --out <path>     output file            (default: <team>-replay.gif)
+        --width <n>      viewport width         (default: 960)
+        --height <n>     viewport height        (default: 600)
+        --frame-ms <n>   ms per beat in the GIF (default: 1600)
+    -r, --repo <path>    h5i repository         (default: cwd)
+        --bin <path>     path to the h5i binary
+        --demo           export from the bundled demo fleet
+    -h, --help           show this help
+
+  EXAMPLES
+    h5i-studio export demo-run -o run.gif
+    h5i-studio export --demo nebula-auth
+    h5i-studio export my-run -r ../project --width 1200
+
+  Needs Playwright + Chromium:  npm i -D playwright && npx playwright install chromium
+`);
+}
+
 function parseArgs(argv) {
   const opts = { port: undefined, host: undefined, repo: undefined, bin: undefined, open: true, demo: false };
   const want = (i, name) => {
@@ -83,11 +173,16 @@ function help() {
     -h, --help           show this help
     -v, --version        show version
 
+  SUBCOMMANDS
+    export <team>                    render a team's replay to an animated GIF
+                                     (h5i-studio export --help)
+
   EXAMPLES
     h5i-studio                       view the repo in the current directory
     h5i-studio --demo                explore a bundled demo fleet + replay
     h5i-studio -r ../my-project      view another repo
     h5i-studio -p 9000 --no-open     custom port, no auto-open
+    h5i-studio export my-run -o run.gif   replay → GIF
 
   Requires the 'h5i' binary on PATH (override with --bin or H5I_BIN),
   except in --demo mode, which needs nothing.
