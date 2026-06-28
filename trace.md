@@ -254,3 +254,4 @@ _[Checkpoint: 6a41420d — edited README.md; edited README.md; edited README.md]
 _[Checkpoint: 6a41457f — Pivoted centerpiece to anthropomorphic Bridge stage]_
 ---
 
+[16:02:40] NOTE: DEFERRAL (~/Dev/h5i-studio/README.md): t **◉ REPLAY** to watch it play out. ## The command, for next time ```bash node bin/h5i-studio.mjs --demo # auto-opens your browser ``` Since the
