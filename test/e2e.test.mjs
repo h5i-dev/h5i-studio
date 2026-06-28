@@ -83,6 +83,15 @@ const newPage = async () => {
   return { page, errors };
 };
 
+/** Reveal the data console (theater is the default; click the vivid toggle). */
+const showConsole = async (page) => {
+  await page.waitForSelector(".bridge.room");
+  if (!(await page.$(".deck-grid"))) {
+    await page.click(".bridge-focus");
+    await page.waitForSelector(".deck-grid");
+  }
+};
+
 /** Click the first timeline tick whose label contains `substr` (real onClick). */
 const seekTick = (page, substr) =>
   page.$$eval(
@@ -118,7 +127,7 @@ test("opening the hero mission renders every deck panel + diff modal", async (t)
   if (reason) return t.skip(reason);
   const { page, errors } = await newPage();
   await page.goto(`${base}/#/nebula-auth`, { waitUntil: "domcontentloaded" });
-  await page.waitForSelector(".deck-grid");
+  await showConsole(page);
   await page.waitForTimeout(600);
 
   const heads = await page.$$eval(".panel-head h3", (els) => els.map((e) => e.textContent));
@@ -154,7 +163,7 @@ test("tapping a crew member opens their operative dossier", async (t) => {
   if (reason) return t.skip(reason);
   const { page, errors } = await newPage();
   await page.goto(`${base}/#/nebula-auth`, { waitUntil: "domcontentloaded" });
-  await page.waitForSelector(".deck-grid");
+  await showConsole(page);
   await page.waitForSelector(".stage .actor.clickable .nametag");
   await page.waitForTimeout(900);
 
@@ -183,7 +192,7 @@ test("Mission Replay reconstructs earlier state, then returns to live", async (t
   if (reason) return t.skip(reason);
   const { page, errors } = await newPage();
   await page.goto(`${base}/#/nebula-auth`, { waitUntil: "domcontentloaded" });
-  await page.waitForSelector(".deck-grid");
+  await showConsole(page); // reveal the Candidates panel for the assertions below
   await page.waitForTimeout(600);
 
   // A *real* click — it hit-tests, so it fails if the button is occluded (e.g.

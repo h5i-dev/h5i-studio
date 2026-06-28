@@ -46,7 +46,7 @@ export function MissionDeck({
 
   const [modal, setModal] = useState<{ id: string; owner: string } | null>(null);
   const [profile, setProfile] = useState<string | null>(null);
-  const [focused, setFocused] = useState(false);
+  const [focused, setFocused] = useState(true); // theater (full room) by default
   const live = detail.data;
 
   // Crew = the operation's roster (from live state, so it is stable across the
