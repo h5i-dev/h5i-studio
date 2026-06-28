@@ -99,3 +99,4 @@ _[Checkpoint: 6a4124f1 — Mapped h5i team data contract empirically]_
 [13:51:51] ACT: wrote src/components/FleetOverview.tsx
 [13:52:13] ACT: wrote src/components/panels/SquadronRoster.tsx
 [13:52:30] ACT: wrote src/components/panels/CandidatePanel.tsx
+[13:52:47] ACT: wrote src/components/panels/GoNoGo.tsx
