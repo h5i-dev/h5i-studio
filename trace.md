@@ -531,3 +531,9 @@ _[Checkpoint: 6a4170e2 — edited src/theme.css; edited index.html; edited src/t
 _[Checkpoint: 6a417b18 — Added replay→GIF exporter CLI subcommand]_
 ---
 
+
+
+---
+_[Checkpoint: 6a417b2b — edited package.json; edited README.md; edited README.md]_
+---
+
