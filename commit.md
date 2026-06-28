@@ -56,3 +56,16 @@ Added bin CLI (npx-able), publish-ready package.json (files ship built dist+serv
 
 ---
 
+## Commit 6a413bfb — 2026-06-28 15:21 UTC
+
+### Branch Purpose
+Primary development branch
+
+### Previous Progress Summary
+Added bin CLI (npx-able), publish-ready package.json (files ship built dist+server+bin, prepack build, provenance), CI + release GitHub Actions. Verified CLI launch + clean npm pack tarball. Awaiting user go-ahead to actually publish (needs NPM_TOKEN).
+
+### This Commit's Contribution
+
+
+---
+
