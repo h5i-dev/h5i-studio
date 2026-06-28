@@ -134,3 +134,16 @@ Per user steer: the differentiator vs h5i serve is anthropomorphism (agmsg-offic
 
 ---
 
+## Commit 6a414898 — 2026-06-28 16:15 UTC
+
+### Branch Purpose
+Primary development branch
+
+### Previous Progress Summary
+
+
+### This Commit's Contribution
+Merged team events + crew radio msgs into one chronological performance timeline driving the stage + replay scrubber. Crew speak own transmissions; human relayed by Director. 43 tests pass. Demo server restarting on 8787.
+
+---
+
