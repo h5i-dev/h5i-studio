@@ -57,3 +57,4 @@
 [13:40:43] OBSERVE: read hooks-json.sh
 [13:40:44] OBSERVE: read server.rs
 [13:40:46] OBSERVE: read team.sh
+[13:40:46] OBSERVE: read identities.sh
