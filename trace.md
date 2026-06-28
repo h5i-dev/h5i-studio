@@ -65,3 +65,4 @@
 [13:40:59] OBSERVE: read TeamView.tsx
 [13:41:00] OBSERVE: read test_storage.bats
 [13:41:07] OBSERVE: read api.ts
+[13:41:14] OBSERVE: read mcp.rs
