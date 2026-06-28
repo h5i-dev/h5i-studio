@@ -187,3 +187,4 @@ _[Checkpoint: 6a413bfb — wrote .github/workflows/ci.yml; edited README.md; edi
 [15:27:50] ACT: edited server/demo.mjs
 [15:29:01] ACT: wrote src/lib/replay.ts
 [15:29:28] ACT: wrote src/lib/useReplay.ts
+[15:29:44] ACT: wrote src/components/ReplayBar.tsx
