@@ -81,9 +81,39 @@ GET /api/context                                shared reasoning workspace
 
 ---
 
-## Run it
+## Install & run
 
 Requirements: **Node ≥ 18**, the **`h5i`** binary on `PATH`.
+
+### As a tool (recommended)
+
+No install needed — run it in any h5i repo:
+
+```bash
+npx @h5i/studio                 # view the repo in the current directory
+npx @h5i/studio -r ../project   # view another repo
+npx @h5i/studio -p 9000 --no-open
+```
+
+Or install it for repeated use:
+
+```bash
+npm i -g @h5i/studio
+h5i-studio                      # opens the console in your browser
+```
+
+```
+OPTIONS
+  -r, --repo <path>    h5i repository to view   (default: cwd)
+  -p, --port <n>       port to listen on        (default: 8787)
+      --host <host>    host/interface to bind   (default: 127.0.0.1)
+      --bin <path>     path to the h5i binary   (default: h5i on PATH)
+      --no-open        do not open the browser
+```
+
+Environment equivalents: `H5I_REPO`, `H5I_BIN`, `PORT`, `HOST`.
+
+### From source
 
 ```bash
 npm install
@@ -95,9 +125,6 @@ npm run dev
 npm run build
 H5I_REPO=/path/to/your/h5i/repo PORT=8787 npm run serve
 ```
-
-Point it at any repository with `H5I_REPO` (defaults to the current directory).
-Override the binary with `H5I_BIN`.
 
 ### Seeing data
 
@@ -139,6 +166,23 @@ npm run test:all # everything
   isn't built or no browser is available.
 
 ---
+
+## Releasing
+
+Published to npm as **`@h5i/studio`**. The tarball ships the pre-built `dist/`
+plus the Express server (`prepack` builds it); `vite`/`react` stay devDeps and
+are never installed by consumers — the only runtime dependency is `express`.
+
+```bash
+npm version patch        # bump package.json + create the git tag
+git push --follow-tags   # → .github/workflows/release.yml publishes on the v* tag
+```
+
+The release workflow typechecks, tests, builds, verifies the tag matches the
+package version, and runs `npm publish --provenance --access public`. It needs a
+repo secret **`NPM_TOKEN`** (an npm automation token). To publish by hand:
+`npm publish` (runs `prepack` → build automatically). `npm pack --dry-run`
+previews the exact tarball.
 
 ## Theme notes
 
