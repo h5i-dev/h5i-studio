@@ -69,10 +69,14 @@ export function reconstruct(allEvents: TeamEvent[], liveRun: TeamRun, cursor: nu
  * messages): we pass only the events in the visible prefix.
  */
 export function reconstructFromEvents(visible: TeamEvent[], liveRun: TeamRun): TeamDetail {
-  const liveAgents = new Map(liveRun.agents.map((a) => [a.agent_id, a]));
   const liveVers = new Map(liveRun.verifications.map((v) => [v.id, v]));
 
-  const agents = new Map<string, TeamAgent>();
+  // The full crew is present in the room for the whole performance — seed every
+  // roster agent up front (idle/working). Events then evolve each one's posture
+  // (sealed / cleared / failed / winner); they never pop in or out.
+  const agents = new Map<string, TeamAgent>(
+    liveRun.agents.map((a) => [a.agent_id, { ...a, latest_submission_id: null, state: "working" }]),
+  );
   const subsByKey = new Map<string, TeamArtifact>(); // owner@round → latest
   const versById = new Map<string, TeamVerification>();
   let phase = "draft";
@@ -94,23 +98,8 @@ export function reconstructFromEvents(visible: TeamEvent[], liveRun: TeamRun): T
         createdAt = ev.ts;
         createdBy = ev.actor;
         break;
-      case "agent_added": {
-        const id = String(p.agent_id);
-        const live = liveAgents.get(id);
-        agents.set(id, {
-          agent_id: id,
-          env_id: String(p.env_id ?? live?.env_id ?? ""),
-          runtime: live?.runtime ?? null,
-          model: live?.model ?? null,
-          isolation_claim: String(p.isolation_claim ?? live?.isolation_claim ?? ""),
-          policy_digest: String(p.policy_digest ?? ""),
-          branch_ref: String(p.branch_ref ?? ""),
-          worktree_known_local: Boolean(p.worktree_known_local ?? true),
-          latest_submission_id: null,
-          state: String(p.state ?? "working"),
-        });
-        break;
-      }
+      // agent_added needs no roster change (all agents are seeded above); it
+      // still produces a "reporting for duty" beat via the performance layer.
       case "submitted": {
         const art = asArtifact(p);
         subsByKey.set(`${art.owner_agent}@${art.round}`, art);

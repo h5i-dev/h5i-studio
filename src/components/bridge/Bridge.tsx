@@ -30,19 +30,32 @@ export function Bridge({
   const beat = useMemo(() => computeBeat(detail, active, crew), [detail, active, crew]);
   const agents = detail.run.agents;
 
-  // Scatter the crew around the central computer — seats around a round table.
+  // Scatter the crew flanking the central computer — left & right arcs, leaving
+  // top-centre clear (Director's bubble) and bottom-centre clear (the computer).
   const placed = useMemo(() => {
     const n = agents.length || 1;
+    const rightCount = Math.ceil(n / 2);
+    const leftCount = n - rightCount;
+    let ri = 0;
+    let li = 0;
+    const deg = (d: number) => (d * Math.PI) / 180;
     return agents.map((a, i) => {
-      const jitterA = (hash01(a.agent_id + "a") - 0.5) * 0.45;
-      // Offset by half a slot so no one sits dead-top-centre (where the
-      // Director's speech bubble rises) — crew straddle the centre instead.
-      const ang = (i / n) * Math.PI * 2 - Math.PI / 2 + Math.PI / n + jitterA;
-      const jr = 0.82 + hash01(a.agent_id + "r") * 0.32;
-      const x = 50 + Math.cos(ang) * 31 * jr;
-      const y = 52 + Math.sin(ang) * 23 * jr;
-      const depth = Math.min(1, Math.max(0, (y - 28) / 50)); // 0 (back) .. 1 (front)
-      const scale = 0.72 + depth * 0.62;
+      let ang: number;
+      if (i % 2 === 0) {
+        const t = rightCount > 1 ? ri / (rightCount - 1) : 0.5;
+        ang = deg(-56 + t * 112); // right arc, around 0°
+        ri++;
+      } else {
+        const t = leftCount > 1 ? li / (leftCount - 1) : 0.5;
+        ang = deg(124 + t * 112); // left arc, around 180°
+        li++;
+      }
+      ang += (hash01(a.agent_id + "a") - 0.5) * 0.2;
+      const jr = 0.9 + hash01(a.agent_id + "r") * 0.2;
+      const x = 50 + Math.cos(ang) * 34 * jr;
+      const y = 50 + Math.sin(ang) * 23 * jr;
+      const depth = Math.min(1, Math.max(0, (y - 26) / 50)); // 0 (back) .. 1 (front)
+      const scale = 0.72 + depth * 0.58;
       return { agent: a, x, y, scale, z: Math.round(y * 12) };
     });
   }, [agents]);
