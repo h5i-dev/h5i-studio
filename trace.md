@@ -175,3 +175,4 @@ First, refactor the server to export a reusable `startServer()` (so the CLI can 
 _[Checkpoint: 6a413bfb — wrote .github/workflows/ci.yml; edited README.md; edited README.md]_
 ---
 
+[15:25:48] ACT: wrote server/demo.mjs
