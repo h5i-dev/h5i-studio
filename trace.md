@@ -166,3 +166,6 @@ _[Checkpoint: 6a412be2 — edited server/parse.mjs; edited vite.config.ts; wrote
 _[Checkpoint: 6a413bee — Made viewer releasable as @h5i/studio npm CLI]_
 ---
 
+[15:21:31] THINK: Let me implement.
+
+First, refactor the server to export a reusable `startServer()` (so the CLI can drive it) while still running directly:
