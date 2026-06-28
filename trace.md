@@ -46,3 +46,4 @@
 [13:40:20] OBSERVE: read main.rs
 [13:40:23] OBSERVE: read plugin.json
 [13:40:25] OBSERVE: read SKILL.md
+[13:40:30] OBSERVE: read llms.txt
