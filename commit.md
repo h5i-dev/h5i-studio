@@ -199,3 +199,16 @@ Primary development branch
 
 ---
 
+## Commit 6a415aba — 2026-06-28 17:32 UTC
+
+### Branch Purpose
+Primary development branch
+
+### Previous Progress Summary
+
+
+### This Commit's Contribution
+Full room backdrop (hull/viewports/stations/floor), crew scattered with depth, Mission Director as central computer (holo core on server pedestal) in room center. Slower replay (2.1s), bigger bubbles. Dropped Flight Recorder + Nav Log panels. 44 tests pass. Live on :8787.
+
+---
+
