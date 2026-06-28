@@ -255,3 +255,4 @@ _[Checkpoint: 6a41457f — Pivoted centerpiece to anthropomorphic Bridge stage]_
 ---
 
 [16:02:40] NOTE: DEFERRAL (~/Dev/h5i-studio/README.md): t **◉ REPLAY** to watch it play out. ## The command, for next time ```bash node bin/h5i-studio.mjs --demo # auto-opens your browser ``` Since the
+[16:02:40] NOTE: DEFERRAL (~/Dev/h5i-studio/README.md): Typecheck + build clean. - Committed: `77295fc`. One small follow-up worth your call: right now an agent "speaks" the event at the replay cursor (or t…
