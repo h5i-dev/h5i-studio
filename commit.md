@@ -108,3 +108,16 @@ Primary development branch
 
 ---
 
+## Commit 6a41457f — 2026-06-28 16:02 UTC
+
+### Branch Purpose
+Primary development branch
+
+### Previous Progress Summary
+
+
+### This Commit's Contribution
+Per user steer: the differentiator vs h5i serve is anthropomorphism (agmsg-office soul). Agents are crew characters that act/speak on a bridge; Mission Director narrates GO/NO-GO; replay re-enacts the run. Data console demoted to ▣ CONSOLE toggle. 42 tests pass.
+
+---
+
