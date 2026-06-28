@@ -212,3 +212,4 @@ _[Checkpoint: 6a413bfb — wrote .github/workflows/ci.yml; edited README.md; edi
 _[Checkpoint: 6a4140a9 — Added demo fleet (--demo) + Mission Replay playback]_
 ---
 
+[15:41:41] THINK: Let me start with the demo data provider (a baked-in 3-team fleet with a full lifecycle):
