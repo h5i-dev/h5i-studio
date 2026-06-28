@@ -147,3 +147,16 @@ Merged team events + crew radio msgs into one chronological performance timeline
 
 ---
 
+## Commit 6a4148b8 — 2026-06-28 16:15 UTC
+
+### Branch Purpose
+Primary development branch
+
+### Previous Progress Summary
+Merged team events + crew radio msgs into one chronological performance timeline driving the stage + replay scrubber. Crew speak own transmissions; human relayed by Director. 43 tests pass. Demo server restarting on 8787.
+
+### This Commit's Contribution
+
+
+---
+
