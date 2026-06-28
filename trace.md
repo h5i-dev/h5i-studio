@@ -10,3 +10,4 @@
 [13:39:40] OBSERVE: read package.json
 [13:39:41] OBSERVE: read README.md
 [13:39:41] OBSERVE: read ARCHITECTURE.md
+[13:39:41] OBSERVE: read types.ts
