@@ -1,0 +1,71 @@
+{
+  "name": "@h5i/studio",
+  "version": "0.1.0",
+  "description": "H5I Fleet Command — an orbital mission-control viewer for `h5i team`",
+  "type": "module",
+  "license": "Apache-2.0",
+  "author": "Koukyosyumei",
+  "homepage": "https://github.com/Koukyosyumei/h5i-studio#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Koukyosyumei/h5i-studio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Koukyosyumei/h5i-studio/issues"
+  },
+  "keywords": [
+    "h5i",
+    "h5i-team",
+    "ai-agents",
+    "multi-agent",
+    "version-control",
+    "viewer",
+    "dashboard",
+    "mission-control",
+    "cli"
+  ],
+  "bin": {
+    "h5i-studio": "bin/h5i-studio.mjs"
+  },
+  "files": [
+    "bin/",
+    "server/",
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.18"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "serve": "node server/index.mjs",
+    "start": "node bin/h5i-studio.mjs",
+    "typecheck": "tsc -b --noEmit",
+    "test": "node --test test/parse.test.mjs test/derive.test.mjs test/demo.test.mjs test/api.test.mjs",
+    "test:e2e": "node --test test/e2e.test.mjs test/gif.test.mjs",
+    "test:all": "node --test test/",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "gifenc": "^1.0.3",
+    "pngjs": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.23",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.20"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}
