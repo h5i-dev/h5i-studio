@@ -60,3 +60,4 @@
 [13:40:46] OBSERVE: read identities.sh
 [13:40:49] OBSERVE: read delivery.sh
 [13:40:52] OBSERVE: read spawn.sh
+[13:40:57] OBSERVE: read delivery.sh
