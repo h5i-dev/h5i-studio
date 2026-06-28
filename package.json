@@ -5,13 +5,13 @@
   "type": "module",
   "license": "Apache-2.0",
   "author": "Koukyosyumei",
-  "homepage": "https://github.com/Koukyosyumei/h5i-studio#readme",
+  "homepage": "https://github.com/h5i-dev/h5i-studio#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Koukyosyumei/h5i-studio.git"
+    "url": "git+https://github.com/h5i-dev/h5i-studio.git"
   },
   "bugs": {
-    "url": "https://github.com/Koukyosyumei/h5i-studio/issues"
+    "url": "https://github.com/h5i-dev/h5i-studio/issues"
   },
   "keywords": [
     "h5i",

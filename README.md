@@ -5,13 +5,13 @@
 <p align="center">
   <a href="#6-license"><img alt="Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue"></a>
   <img alt="node >=18" src="https://img.shields.io/badge/node-%E2%89%A518-44cc11">
-  <a href="https://github.com/Koukyosyumei/h5i"><img alt="powered by h5i" src="https://img.shields.io/badge/powered%20by-h5i-6f42c1"></a>
+  <a href="https://github.com/h5i-dev/h5i"><img alt="powered by h5i" src="https://img.shields.io/badge/powered%20by-h5i-6f42c1"></a>
   <img alt="read-only, no mock data" src="https://img.shields.io/badge/real%20h5i%20data-read--only-2ea44f">
 </p>
 
 <h1 align="center">Don't read your agent team. Watch it.</h1>
 
-[h5i](https://github.com/Koukyosyumei/h5i) runs a **team of coding agents** on the same task, sealed in their own sandboxes, then peer-reviews and verifies them and merges the one that passes. **H5I Fleet Command** is the viewer that turns one of those runs into a live **starship bridge**: each agent is a crew member who reports in, seals a candidate, speaks its *actual* review, and — if the neutral verifier clears it — **launches**. The Mission Director (the central computer) narrates the **GO / NO-GO** verdict. Hit **replay** to watch the whole operation again, or **export it as a GIF**.
+[h5i](https://github.com/h5i-dev/h5i) runs a **team of coding agents** on the same task, sealed in their own sandboxes, then peer-reviews and verifies them and merges the one that passes. **H5I Fleet Command** is the viewer that turns one of those runs into a live **starship bridge**: each agent is a crew member who reports in, seals a candidate, speaks its *actual* review, and — if the neutral verifier clears it — **launches**. The Mission Director (the central computer) narrates the **GO / NO-GO** verdict. Hit **replay** to watch the whole operation again, or **export it as a GIF**.
 
 > ***Your agent team isn't a table of rows. It's a crew with a story.***
 
@@ -71,7 +71,7 @@ Opening an operation drops you straight into the **meeting room** — the centre
   <img src="./docs/launch.png" alt="The central computer turns green and announces the verdict; the winning crew member rises on a launch beam." width="80%">
 </p>
 
-> Where `h5i serve` gives you the *data*, Fleet Command gives you the *cast*. (Inspired by [`agmsg-office`](https://github.com/Koukyosyumei/agmsg).)
+> Where `h5i serve` gives you the *data*, Fleet Command gives you the *cast*. (Inspired by [`agmsg-office`](https://github.com/fujibee/agmsg).)
 
 ---
 
@@ -123,4 +123,4 @@ The bundled `--demo` fleet is what the end-to-end tests run against, so the demo
 
 ## 6. License
 
-Apache-2.0 — see [LICENSE](LICENSE). Built for, and on top of, [h5i](https://github.com/Koukyosyumei/h5i).
+Apache-2.0 — see [LICENSE](LICENSE). Built for, and on top of, [h5i](https://github.com/h5i-dev/h5i).
