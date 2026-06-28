@@ -1024,47 +1024,61 @@ button.btn:disabled {
   }
 }
 .modal {
-  width: min(1100px, 96vw);
-  max-height: 92vh;
+  width: min(1320px, 96vw);
+  max-height: 94vh;
   display: flex;
   flex-direction: column;
   background: var(--panel-solid);
 }
 .modal .panel-head {
   cursor: default;
+  padding: 14px 18px;
+}
+.modal .panel-head h3 {
+  font-size: 15px;
 }
 
 /* operative dossier (tap a crew member) */
 .agent-profile {
-  width: min(720px, 94vw);
+  width: min(900px, 94vw);
   background: var(--panel-solid);
   animation: pop 0.18s ease;
 }
 .agent-profile .panel-head {
-  gap: 10px;
-  padding: 14px 18px;
+  gap: 12px;
+  padding: 18px 24px;
 }
 .agent-profile .panel-head h3 {
-  font-size: 16px;
+  font-size: 20px;
+}
+.agent-profile .panel-head .tag {
+  font-size: 12px;
 }
 .agent-profile .ap-glyph {
   display: inline-flex;
   filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.5));
 }
 .agent-profile .panel-body {
-  padding: 22px 24px;
-  gap: 18px;
+  padding: 28px 30px;
+  gap: 22px;
 }
 .agent-profile .kv {
-  font-size: 13px;
-  gap: 9px 20px;
+  font-size: 16px;
+  gap: 12px 26px;
 }
 .agent-profile .kv .k {
-  font-size: 11px;
+  font-size: 12px;
 }
 .agent-profile .panel-body .statline {
   margin-left: 4px;
-  font-size: 13px;
+  font-size: 15px;
+}
+.agent-profile .chip {
+  font-size: 11px;
+}
+.agent-profile .codepill,
+.agent-profile .faint.mono {
+  font-size: 12px;
 }
 .modal-tabs {
   display: flex;
@@ -1105,15 +1119,15 @@ button.btn:disabled {
   flex: 1;
   overflow: auto;
   margin: 0;
-  padding: 12px 0;
+  padding: 14px 0;
   font-family: var(--f-mono);
-  font-size: 12.5px;
-  line-height: 1.5;
+  font-size: 14.5px;
+  line-height: 1.55;
   background: #050a14;
 }
 .diff .dl {
   display: block;
-  padding: 0 16px;
+  padding: 0 20px;
   white-space: pre;
 }
 .diff .dl.add {
@@ -1134,12 +1148,16 @@ button.btn:disabled {
 .summary-box {
   flex: 1;
   overflow: auto;
-  padding: 18px 20px;
+  padding: 22px 26px;
   white-space: pre-wrap;
   font-family: var(--f-mono);
-  font-size: 13px;
+  font-size: 15px;
+  line-height: 1.55;
   color: var(--ink);
   background: #050a14;
+}
+.summary-box .kv {
+  font-size: 14px;
 }
 
 /* ── Context strip ────────────────────────────────────────────────────────── */

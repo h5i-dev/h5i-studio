@@ -35,7 +35,7 @@ export function AgentProfile({
       <div className="panel agent-profile" onClick={(e) => e.stopPropagation()}>
         <div className="panel-head">
           <span className="ap-glyph">
-            <ShipGlyph name={agent.agent_id} size={46} />
+            <ShipGlyph name={agent.agent_id} size={56} />
           </span>
           <h3 style={{ color: `hsl(${hue} 90% 76%)` }}>{agent.agent_id}</h3>
           <span className="tag mono">{callsign(agent.agent_id)}</span>
@@ -65,7 +65,7 @@ export function AgentProfile({
 
           {compare && (
             <div>
-              <div className="faint mono" style={{ fontSize: 9, letterSpacing: "0.2em", marginBottom: 6 }}>
+              <div className="faint mono" style={{ fontSize: 11, letterSpacing: "0.2em", marginBottom: 8 }}>
                 LIVE TELEMETRY
               </div>
               <div className="rowflex">
@@ -86,7 +86,7 @@ export function AgentProfile({
           )}
 
           <div className="rowflex" style={{ justifyContent: "space-between" }}>
-            <span className="faint mono" style={{ fontSize: 10 }}>
+            <span className="faint mono" style={{ fontSize: 12 }}>
               {agent.latest_submission_id ? `▦ ${shortOid(agent.latest_submission_id, 28)}` : "no submission sealed"}
             </span>
             {agent.latest_submission_id && (
