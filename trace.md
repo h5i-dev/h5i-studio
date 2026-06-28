@@ -447,3 +447,4 @@ _[Checkpoint: 6a4169f9 — Squadron→tap-to-dossier, removed Launch Authority p
 _[Checkpoint: 6a416a08 — edited test/e2e.test.mjs; edited test/e2e.test.mjs; edited README.md]_
 ---
 
+[18:40:36] ACT: edited src/components/MissionDeck.tsx
