@@ -35,7 +35,7 @@ export function AgentProfile({
       <div className="panel agent-profile" onClick={(e) => e.stopPropagation()}>
         <div className="panel-head">
           <span className="ap-glyph">
-            <ShipGlyph name={agent.agent_id} size={34} />
+            <ShipGlyph name={agent.agent_id} size={46} />
           </span>
           <h3 style={{ color: `hsl(${hue} 90% 76%)` }}>{agent.agent_id}</h3>
           <span className="tag mono">{callsign(agent.agent_id)}</span>

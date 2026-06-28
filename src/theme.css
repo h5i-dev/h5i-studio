@@ -1036,19 +1036,35 @@ button.btn:disabled {
 
 /* operative dossier (tap a crew member) */
 .agent-profile {
-  width: min(500px, 94vw);
+  width: min(720px, 94vw);
   background: var(--panel-solid);
   animation: pop 0.18s ease;
 }
 .agent-profile .panel-head {
-  gap: 8px;
+  gap: 10px;
+  padding: 14px 18px;
+}
+.agent-profile .panel-head h3 {
+  font-size: 16px;
 }
 .agent-profile .ap-glyph {
   display: inline-flex;
   filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.5));
 }
+.agent-profile .panel-body {
+  padding: 22px 24px;
+  gap: 18px;
+}
+.agent-profile .kv {
+  font-size: 13px;
+  gap: 9px 20px;
+}
+.agent-profile .kv .k {
+  font-size: 11px;
+}
 .agent-profile .panel-body .statline {
   margin-left: 4px;
+  font-size: 13px;
 }
 .modal-tabs {
   display: flex;
