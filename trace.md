@@ -213,3 +213,9 @@ _[Checkpoint: 6a4140a9 — Added demo fleet (--demo) + Mission Replay playback]_
 ---
 
 [15:41:41] THINK: Let me start with the demo data provider (a baked-in 3-team fleet with a full lifecycle):
+
+
+---
+_[Checkpoint: 6a4140b5 — edited README.md; edited README.md; edited README.md]_
+---
+

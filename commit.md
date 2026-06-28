@@ -82,3 +82,16 @@ npx @h5i/studio --demo shows a bundled 3-team fleet; ◉ REPLAY reconstructs dec
 
 ---
 
+## Commit 6a4140b5 — 2026-06-28 15:41 UTC
+
+### Branch Purpose
+Primary development branch
+
+### Previous Progress Summary
+npx @h5i/studio --demo shows a bundled 3-team fleet; ◉ REPLAY reconstructs deck state over the event timeline (pure client fold). 41 tests pass incl demo + replay e2e. Verified visually.
+
+### This Commit's Contribution
+
+
+---
+
