@@ -1,0 +1,1 @@
+{"git_oid":"6129f335ab1503cc0809d7fe8076df0c683de375","parent_oid":"d38094784a906d6baf8ebdcd61f72d81da3193fa","ai_metadata":{"model_name":"claude-opus-4-8","prompt":"We also need to make this tool releasable. What is the best option? Like npm library?","agent_id":"claude-code","usage":null},"test_metrics":null,"timestamp":"2026-06-28T15:21:08.400636578Z"}
