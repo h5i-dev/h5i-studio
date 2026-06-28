@@ -51,3 +51,4 @@
 [13:40:31] OBSERVE: read delivery.sh
 [13:40:35] OBSERVE: read ctx.rs
 [13:40:37] OBSERVE: read msg.rs
+[13:40:38] OBSERVE: read watch.sh
