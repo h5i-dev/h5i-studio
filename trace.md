@@ -138,3 +138,4 @@ _[Checkpoint: 6a412b9f — Built full Fleet Command viewer for h5i team + tests]
 
 [14:12:50] THINK: Let me capture compare, the remaining event kinds (freeze, review, finalize), and the diff/artifact views.
 [14:12:50] THINK: Let me capture the messaging/context output formats (no `--json`, so I must parse plain text) before designing.
+[14:12:50] THINK: Let me grab the last event payloads (reviews, verdict) so I can render them, then start building.
