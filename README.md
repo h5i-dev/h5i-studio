@@ -1,30 +1,62 @@
 # H5I · Fleet Command
 
-An orbital **mission-control viewer for [`h5i team`](https://github.com/Koukyosyumei/h5i)** — the
-phased, evidence-publishing multi-agent collaboration feature of h5i. Where the
-built-in `h5i serve` dashboard is a utilitarian table, Fleet Command reframes a
-team run as a live **launch operation**: agents are starfighters in a squadron,
-their sealed candidates are flight plans, the neutral verifier is telemetry, and
-the finalization policy is a **GO / NO-GO** launch lamp.
+A **crewed-bridge viewer for [`h5i team`](https://github.com/Koukyosyumei/h5i)** — the
+phased, evidence-publishing multi-agent collaboration feature of h5i.
 
-Inspired by [`agmsg-office`](../agmsg-office) (a Moe-anime viewer for `agmsg`), but
-with a deep-space HUD aesthetic befitting an AI version-control sidecar.
+Where the built-in `h5i serve` dashboard shows you the *data*, Fleet Command shows
+you the *cast*. A team run isn't a table here — it's a **performance**. Each agent
+is an anthropomorphised crew member (a helmeted pilot in their own livery) on the
+ship's bridge; a **Mission Director** AI narrates; agents report in, speak their
+actual reviews in speech bubbles, argue in discussion, get cleared or fail the
+verifier, and the winner rises on a launch beam. Hit **replay** and the whole
+operation is re-enacted on the timeline.
+
+That anthropomorphism — agents-as-characters acting out the collaboration — is the
+whole point, directly inspired by [`agmsg-office`](../agmsg-office) (a Moe-anime
+viewer for `agmsg`), reimagined with a deep-space HUD aesthetic. The data console
+(phase rail, candidate diffs, GO/NO-GO, event log) is still there, one click away,
+for when you want the numbers.
 
 > No mock data. Every pixel is rendered from the real `h5i` CLI running against a
-> real repository.
+> real repository (or the bundled `--demo` fleet).
 
-![deck](docs/deck.png)
+![the bridge — a crew member speaking its review during replay](docs/bridge.png)
 
 > Try it instantly — no `h5i` or repo needed: `npx @h5i/studio --demo`
 
-![replay](docs/replay.png)
+The Mission Director announces the verdict and the winning candidate launches:
+
+![launch — the Director announces GO and the winner launches](docs/launch.png)
+
+The data console, one click away:
+
+![console — the data panels](docs/deck.png)
 
 ---
 
-## What it shows
+## The Bridge (the centerpiece)
 
-A team run (`h5i team`) is an event-sourced state machine. Fleet Command reads it
-live and renders every part of the lifecycle:
+The default view of an operation is the **Bridge** — a stage where the run is
+performed:
+
+- **Crew** — each `h5i team` agent is a character drawn procedurally in its own
+  livery (no image assets). Posture follows the story: bobbing on standby,
+  leaning in with a speech bubble *on comms*, heads-down *reviewing*, shaking and
+  greyed-out when the *verifier fails*, rising on a golden beam when *launched*.
+- **Mission Director** — the ship's-AI host (the fleet analogue of agmsg-office's
+  boss character) opens the operation, calls the round sealed, and announces the
+  **GO / NO-GO** verdict, turning green or red.
+- **Speech bubbles + caption** carry the *actual* text — a review body, a
+  discussion message, "candidate sealed."
+- **⛶ THEATER** expands the stage full-screen; **▣ CONSOLE** brings back the data
+  panels below.
+
+Combined with **replay**, the Bridge re-enacts the entire operation beat by beat.
+
+## The console (the data, when you want it)
+
+A team run (`h5i team`) is an event-sourced state machine. Below the Bridge,
+Fleet Command renders every part of the lifecycle:
 
 | Deck panel | h5i concept | Source |
 |---|---|---|

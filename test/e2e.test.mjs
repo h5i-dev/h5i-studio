@@ -162,3 +162,38 @@ test("Mission Replay reconstructs earlier state, then returns to live", async (t
   assert.deepEqual(errors, []);
   await page.close();
 });
+
+test("the Bridge performs the operation: crew speak, the Director announces the winner", async (t) => {
+  if (reason) return t.skip(reason);
+  const { page, errors } = await newPage();
+  await page.goto(`${base}/#/nebula-auth`, { waitUntil: "domcontentloaded" });
+  await page.waitForSelector(".bridge");
+  await page.waitForTimeout(500);
+
+  // One crew actor per agent + the Mission Director host.
+  assert.equal((await page.$$(".stage .actor")).length, 3);
+  assert.ok(await page.$(".host"), "Mission Director present");
+
+  await page.$eval(".replay-toggle", (el) => el.click());
+  await page.waitForSelector(".replaybar");
+  await page.$eval(".rb-btn.play", (el) => el.click()); // pause
+
+  // Event 13 = nova's review: the speaking actor shows a bubble with the text,
+  // and the caption attributes the line to nova.
+  await page.$$eval(".rb-tick", (els) => els[12].click());
+  await page.waitForTimeout(400);
+  const speakers = await page.$$eval(".actor.speaking .bubble-name", (e) => e.map((x) => x.textContent));
+  assert.deepEqual(speakers, ["nova"], "nova is the speaking actor");
+  assert.match(await page.textContent(".actor.speaking .bubble-text"), /single-flight/i);
+  assert.match(await page.textContent(".caption .cap-who"), /nova/);
+
+  // Final event = verdict: the Director (go mood) announces, the winner launches.
+  await page.$$eval(".rb-tick", (els) => els[16].click());
+  await page.waitForTimeout(400);
+  assert.ok(await page.$(".host--go.speaking"), "Director announces in GO mood");
+  assert.match(await page.textContent(".host-text"), /cleared for launch/i);
+  assert.ok(await page.$(".actor--winner"), "the winning crew member launches");
+
+  assert.deepEqual(errors, []);
+  await page.close();
+});

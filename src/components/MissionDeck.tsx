@@ -8,6 +8,7 @@ import { useReplay } from "../lib/useReplay";
 import { reconstruct, sortedAsc } from "../lib/replay";
 import { PhaseRail } from "./PhaseRail";
 import { ReplayBar } from "./ReplayBar";
+import { Bridge } from "./bridge/Bridge";
 import { Chip, Spinner } from "./ui";
 import { DiffViewer } from "./DiffViewer";
 import { SquadronRoster } from "./panels/SquadronRoster";
@@ -42,6 +43,7 @@ export function MissionDeck({
   const compare = usePoll<CompareRow[]>(fetchCompare, intervalMs);
 
   const [modal, setModal] = useState<{ id: string; owner: string } | null>(null);
+  const [focused, setFocused] = useState(false);
   const live = detail.data;
   const replay = useReplay(live?.events.length ?? 0);
 
@@ -123,6 +125,14 @@ export function MissionDeck({
       {replay.active && <ReplayBar replay={replay} events={ascEvents} />}
 
       <div className="scroll">
+        <Bridge
+          detail={view}
+          focused={focused}
+          replaying={replay.active}
+          onToggleFocus={() => setFocused((f) => !f)}
+        />
+
+        {!focused && (
         <div className="deck-grid">
           <div className="deck-col">
             <CandidatePanel run={run} verdict={derived.verdict} onOpen={(id, owner) => setModal({ id, owner })} />
@@ -141,6 +151,7 @@ export function MissionDeck({
             <ContextStrip ctx={context} />
           </div>
         </div>
+        )}
       </div>
 
       {modal && (
