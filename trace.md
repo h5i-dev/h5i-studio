@@ -14,3 +14,4 @@
 [13:39:42] OBSERVE: read main.tsx
 [13:39:42] OBSERVE: read App.tsx
 [13:39:45] OBSERVE: read agmsg.ts
+[13:39:45] OBSERVE: read i18n.ts
