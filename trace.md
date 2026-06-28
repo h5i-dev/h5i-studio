@@ -521,3 +521,4 @@ _[Checkpoint: 6a4170e2 — edited src/theme.css; edited index.html; edited src/t
 [19:46:37] ACT: edited bin/h5i-studio.mjs
 [19:47:09] ACT: wrote test/gif.test.mjs
 [19:47:35] ACT: edited package.json
+[19:49:14] OBSERVE: read README.md
