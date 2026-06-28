@@ -146,3 +146,9 @@ _[Checkpoint: 6a412b9f — Built full Fleet Command viewer for h5i team + tests]
 [14:12:50] THINK: Noted — I'll add a full test suite (the CLI-text parsers especially need coverage).
 [14:12:50] THINK: Now let me fix the one real bug: the starfield canvas is stuck at its intrinsic 300×150 (replaced-element quirk), creating that bright patch over the title.
 [14:12:50] THINK: png`. Let me capture a fresh deck screenshot (with the starfield fix) and save it there:
+
+
+---
+_[Checkpoint: 6a412be2 — edited server/parse.mjs; edited vite.config.ts; wrote README.md]_
+---
+
