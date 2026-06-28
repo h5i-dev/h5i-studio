@@ -86,8 +86,12 @@ export function Bridge({
           <i className="dot" /> {pd.glyph} {pd.label}
         </span>
         <span className="grow" />
-        <button className="bridge-focus" onClick={onToggleFocus} title={focused ? "show console" : "theater mode"}>
-          {focused ? "▣ CONSOLE" : "⛶ THEATER"}
+        <button
+          className="bridge-focus"
+          onClick={onToggleFocus}
+          title={focused ? "show the data panels" : "back to the full room"}
+        >
+          {focused ? "▦ DETAILS" : "⛶ THEATER"}
         </button>
       </div>
 
