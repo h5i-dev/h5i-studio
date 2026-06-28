@@ -25,3 +25,4 @@
 [13:39:58] OBSERVE: read characters.json
 [13:39:58] OBSERVE: read team.rs
 [13:40:00] OBSERVE: read driver-interface.md
+[13:40:00] OBSERVE: read storage.sh
