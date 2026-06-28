@@ -1,0 +1,2 @@
+{"ts":"2026-06-28T13:40:32.518770Z","env_id":"env/human/alice","agent":"human","event":"created","detail":"base=cd93b9541a0a profile=agent-claude isolation=supervised backend=worktree"}
+{"ts":"2026-06-28T13:40:43.748902Z","env_id":"env/human/bob","agent":"human","event":"created","detail":"base=cd93b9541a0a profile=agent-claude isolation=supervised backend=worktree"}
