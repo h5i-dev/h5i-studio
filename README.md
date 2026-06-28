@@ -1,102 +1,85 @@
-# H5I · Fleet Command
+<p align="center">
+  <img src="./docs/logo.png" alt="H5I Fleet Command" height="112">
+</p>
 
-A **crewed-bridge viewer for [`h5i team`](https://github.com/Koukyosyumei/h5i)** — the
-phased, evidence-publishing multi-agent collaboration feature of h5i.
+<p align="center">
+  <a href="#6-license"><img alt="Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue"></a>
+  <img alt="node >=18" src="https://img.shields.io/badge/node-%E2%89%A518-44cc11">
+  <a href="https://github.com/Koukyosyumei/h5i"><img alt="powered by h5i" src="https://img.shields.io/badge/powered%20by-h5i-6f42c1"></a>
+  <img alt="read-only, no mock data" src="https://img.shields.io/badge/real%20h5i%20data-read--only-2ea44f">
+</p>
 
-Where the built-in `h5i serve` dashboard shows you the *data*, Fleet Command shows
-you the *cast*. A team run isn't a table here — it's a **performance**. Each agent
-is an anthropomorphised crew member (a helmeted pilot in their own livery) on the
-ship's bridge; a **Mission Director** AI narrates; agents report in, speak their
-actual reviews in speech bubbles, argue in discussion, get cleared or fail the
-verifier, and the winner rises on a launch beam. Hit **replay** and the whole
-operation is re-enacted on the timeline.
+<h1 align="center">Don't read your agent team. Watch it.</h1>
 
-That anthropomorphism — agents-as-characters acting out the collaboration — is the
-whole point, directly inspired by [`agmsg-office`](../agmsg-office) (a Moe-anime
-viewer for `agmsg`), reimagined with a deep-space HUD aesthetic. The data console
-(phase rail, candidate diffs, GO/NO-GO, event log) is still there, one click away,
-for when you want the numbers.
+[h5i](https://github.com/Koukyosyumei/h5i) runs a **team of coding agents** on the same task, sealed in their own sandboxes, then peer-reviews and verifies them and merges the one that passes. **H5I Fleet Command** is the viewer that turns one of those runs into a live **starship bridge**: each agent is a crew member who reports in, seals a candidate, speaks its *actual* review, and — if the neutral verifier clears it — **launches**. The Mission Director (the central computer) narrates the **GO / NO-GO** verdict. Hit **replay** to watch the whole operation again, or **export it as a GIF**.
 
-> No mock data. Every pixel is rendered from the real `h5i` CLI running against a
-> real repository (or the bundled `--demo` fleet).
+> ***Your agent team isn't a table of rows. It's a crew with a story.***
 
-![the bridge — a crew member speaking its review during replay](docs/bridge.png)
+<p align="center">
+  <img src="./docs/hero.gif" alt="A spaceship meeting room: crew members scattered around a central computer report in, seal candidates, review each other in speech bubbles, and the winner launches on a beam while the Mission Director announces the verdict." width="96%">
+</p>
 
-> Try it instantly — no `h5i` or repo needed: `npx @h5i/studio --demo`
+<table align="center">
+  <tr>
+    <td align="center"><strong>Anthropomorphic bridge</strong><br><sub>agents are crew, not rows</sub></td>
+    <td align="center"><strong>Mission replay</strong><br><sub>scrub or loop the whole run</sub></td>
+    <td align="center"><strong>GIF export</strong><br><sub>share the replay, one command</sub></td>
+    <td align="center"><strong>Real h5i, read-only</strong><br><sub>no mock, no SaaS</sub></td>
+  </tr>
+</table>
 
-The Mission Director announces the verdict and the winning candidate launches:
-
-![launch — the Director announces GO and the winner launches](docs/launch.png)
-
-The data console, one click away:
-
-![console — the data panels](docs/deck.png)
+**Who it's for:** anyone running `h5i team` (Claude Code / Codex ensembles) who wants to *see* — and share — what the team actually did, instead of squinting at a table of diffs.
 
 ---
 
-## The Bridge (the centerpiece)
+## 1. Quick start
 
-The default view of an operation is the **Bridge** — a spaceship *meeting room*
-(think Among Us) where the run is performed:
+No install, no `h5i`, no repo — explore a bundled demo fleet (with replay):
 
-- **Crew** — each `h5i team` agent is a character drawn procedurally in its own
-  livery (no image assets), **scattered around the room** with depth (nearer crew
-  larger). Posture follows the story: bobbing on standby, leaning in with a speech
-  bubble *on comms*, heads-down *reviewing*, shaking and greyed-out when the
-  *verifier fails*, rising on a golden beam when *launched*.
-- **Central computer** — the Mission Director sits in the **middle of the room** as
-  a holographic AI core on a server pedestal (the fleet analogue of
-  agmsg-office's boss character). It opens the operation, calls the round sealed,
-  and announces the **GO / NO-GO** verdict, the whole core turning green or red.
-- **Speech bubbles + caption** carry the *actual* text — a review body, a
-  discussion message, "candidate sealed."
-- **⛶ THEATER** expands the stage full-screen; **▣ CONSOLE** brings back the data
-  panels below.
+```bash
+npx @h5i/studio --demo
+```
 
-- **Radio chatter** — the `h5i msg` traffic between the crew (dispatch, acks,
-  discussion) is woven into the same timeline and spoken on stage: a crew member
-  voices its own transmissions; the human commander's radio is relayed by the
-  Mission Director.
+Then point it at a real h5i repository:
 
-Combined with **replay**, the Bridge re-enacts the entire operation beat by beat —
-team events and radio chatter interleaved chronologically on one scrubber.
+```bash
+npx @h5i/studio                 # the repo in the current directory
+npx @h5i/studio -r ../project   # another repo
+```
 
-## The console (the data, when you want it)
+Or install it for repeated use:
 
-A team run (`h5i team`) is an event-sourced state machine. Below the Bridge,
-Fleet Command renders every part of the lifecycle:
+```bash
+npm i -g @h5i/studio
+h5i-studio                       # opens the console in your browser
+```
 
-| Deck element | h5i concept | Source |
-|---|---|---|
-| **Fleet Operations** | all team runs, phase + crew + sealed count | `team list --json` |
-| **Phase rail** | `draft → sealed → review → eval → cleared → launched` | `run.phase` |
-| **Operative dossier** (tap a crew member) | env, isolation, runtime/model, state, live tool/exit, submission | `team status` + `team compare` + `msg team` |
-| **Candidates** | sealed submissions: diff envelope, verifier gates, winner | `run.submissions` + `run.verifications` |
-| **Flight Plan** (modal) | a submission's diff / summary / test evidence | `team artifact show` |
-| **Comms Channel** | peer reviews, grants, discussion, crew radio | folded from events + `msg history` |
+Requirements: **Node ≥ 18**, and the **`h5i`** binary on `PATH` (not needed for `--demo`).
 
-The verdict is shown in the room (the central computer announces GO/NO-GO) and as
-the winning candidate's badge, rather than as a separate panel. The full event
-log drives the replay scrubber. Tapping a crew member in the room opens their
-dossier — the room *is* the squadron.
+---
 
-The console polls continuously (4 s on an open deck, 8 s ambient) with a LIVE /
-IDLE / LOST uplink indicator.
+## 2. The bridge
 
-### Mission Replay
+Opening an operation drops you straight into the **meeting room** — the centrepiece. The data console is one click away (**▦ DETAILS**), but the story is on stage:
 
-Every team carries a timestamped, append-only event log, so any operation can be
-**replayed**. Hit **◉ REPLAY** on a deck and the whole console becomes a
-time-machine: a transport bar scrubs the timeline while the panels reconstruct
-the exact state at the cursor — the phase rail advances, candidates seal in,
-verifier gates flip, comms stream, and the GO / NO-GO lamp lights only once the
-verdict is reached. Reconstruction is pure and client-side (it folds the event
-prefix the same way the server's `derive()` does), so it works on live *and*
-demo data. Play / pause, 1–8× speed, scrub, click any event tick, or jump to live.
+- **Crew** — each `h5i team` agent is a character drawn in its own livery (no image assets), scattered around the room with depth. Posture follows the run: *standby* → *on comms* (a speech bubble with the real review / discussion text) → *reviewing* → shaking & grey when the *verifier fails* → rising on a golden beam when *launched*.
+- **Central computer** — the Mission Director presides in the middle, opens the operation, calls the round sealed, and announces the **GO / NO-GO** verdict, glowing green or red.
+- **Tap a crew member** for their dossier — env, isolation, runtime/model, live tool/exit, and a jump to their diff.
+- **Radio chatter** (`h5i msg`) is woven into the same timeline, so the crew also speak their dispatches, acks and discussion.
 
-### Export a replay as a GIF
+<p align="center">
+  <img src="./docs/launch.png" alt="The central computer turns green and announces the verdict; the winning crew member rises on a launch beam." width="80%">
+</p>
 
-Render any operation's replay to a shareable animated GIF from the command line:
+> Where `h5i serve` gives you the *data*, Fleet Command gives you the *cast*. (Inspired by [`agmsg-office`](https://github.com/Koukyosyumei/agmsg).)
+
+---
+
+## 3. Replay & GIF export
+
+Every team carries a timestamped, append-only event log, so any operation can be **replayed**. Hit **◉ REPLAY** and the room performs the run beat by beat — looping continuously — while a scrubber lets you play / pause, change speed (1–8×), or jump to any moment. Reconstruction is pure and client-side, so it works on live *and* demo data.
+
+Render that replay to a shareable **animated GIF** from the CLI (in-process, no ffmpeg):
 
 ```bash
 h5i-studio export <team> -o run.gif        # in an h5i repo
@@ -104,184 +87,40 @@ h5i-studio export --demo nebula-auth        # from the bundled fleet
 h5i-studio export my-run --width 1200 --frame-ms 1800
 ```
 
-It drives the real replay headlessly (one frame per beat — crew posture, speech
-bubbles, the verdict — with the central computer at the centre) and encodes the
-GIF in-process (no ffmpeg). Options: `--out`, `--width`/`--height`, `--frame-ms`
-(pace), `--repo`/`--bin`/`--demo`. Needs Playwright + Chromium once:
-`npm i -D playwright && npx playwright install chromium` (kept out of the
-package's runtime deps so a normal install stays lean).
-
-### Demo mode
-
-`--demo` serves a bundled, self-contained fleet — three missions including a
-fully-played hero run (3 candidates, peer reviews, discussion, neutral
-verification, a smallest-passing-diff verdict) — so you can see the
-visualization and try replay without `h5i` or a repo. It's also what the
-end-to-end tests run against, so the demo stays correct.
+GIF export needs Playwright + Chromium once (`npm i -D playwright && npx playwright install chromium`) — kept out of the package's runtime deps so a normal install stays lean.
 
 ---
 
-## Architecture
+## 4. How it reads h5i
 
-```
- browser (React + Vite, "Fleet Command" theme)
-    │  fetch /api/*
-    ▼
- Express read-only API  ──shells out──▶  h5i CLI  ──▶  refs/h5i/* (git)
- (server/ + vite dev middleware)
-```
+Fleet Command is a **read-only** lens over the real `h5i` CLI — **no mock data**, and it never advances a run's state:
 
-- **`server/h5i.mjs`** — the CLI bridge. `team` data comes from `--json`; `msg`
-  and `recall context` (which have no `--json` in the installed CLI) are parsed
-  from their human output by the pure functions in **`server/parse.mjs`**.
-- **`server/derive.mjs`** — folds the append-only event log into the higher-order
-  objects the installed `team status --json` doesn't include directly (the latest
-  verdict, peer reviews, review grants, discussion).
-- **`server/api.mjs`** — the read-only REST router, shared by **both** the
-  standalone production server (`server/index.mjs`) and the Vite dev middleware
-  (`vite.config.ts`). One source of truth, no drift.
-- **`src/`** — the React SPA. A canvas warp-drift starfield, procedurally-drawn
-  ship insignia (deterministic per call-sign — no image assets), and a HUD theme
-  in a single `theme.css`.
+| Shows | From |
+|---|---|
+| fleet, roster, phase, submissions, verifications | `h5i team list / status / compare --json` |
+| diffs, summaries, test evidence | `h5i team artifact show` |
+| the GO / NO-GO verdict | folded from the `verdict` / `no_verdict` events |
+| reviews, grants, discussion, crew radio | events + `h5i msg history` |
 
-Every API endpoint is a **pure read**: nothing the viewer does advances a team
-run's state. (The verdict is derived from the existing event log rather than by
-invoking `team finalize`, which would append a new event.)
-
-### API
-
-```
-GET /api/health                                 service + repo + h5i version
-GET /api/teams                                  TeamRun[]
-GET /api/teams/:id                              { run, events, derived }
-GET /api/teams/:id/compare                      CompareRow[]
-GET /api/teams/:id/artifact/:artifactId?view=   diff | summary | tests
-GET /api/messages?limit=                        cross-agent radio (newest first)
-GET /api/roster                                 message-channel roster
-GET /api/context                                shared reasoning workspace
-```
+A small Express server shells out to `h5i` and serves JSON; the React app renders it. The same API powers the dev server and the standalone `h5i-studio` binary, so live and demo data run identical code paths.
 
 ---
 
-## Install & run
-
-Requirements: **Node ≥ 18**, the **`h5i`** binary on `PATH`.
-
-### Try the demo first
-
-No `h5i`, no repo, no setup — explore a bundled 3-mission fleet (with replay):
-
-```bash
-npx @h5i/studio --demo
-```
-
-### As a tool (recommended)
-
-No install needed — run it in any h5i repo:
-
-```bash
-npx @h5i/studio                 # view the repo in the current directory
-npx @h5i/studio -r ../project   # view another repo
-npx @h5i/studio -p 9000 --no-open
-```
-
-Or install it for repeated use:
-
-```bash
-npm i -g @h5i/studio
-h5i-studio                      # opens the console in your browser
-```
-
-```
-OPTIONS
-  -r, --repo <path>    h5i repository to view   (default: cwd)
-  -p, --port <n>       port to listen on        (default: 8787)
-      --host <host>    host/interface to bind   (default: 127.0.0.1)
-      --bin <path>     path to the h5i binary   (default: h5i on PATH)
-      --demo           serve the bundled demo fleet (no h5i / repo needed)
-      --no-open        do not open the browser
-```
-
-Environment equivalents: `H5I_REPO`, `H5I_BIN`, `PORT`, `HOST`.
-
-### From source
+## 5. From source
 
 ```bash
 npm install
+npm run dev          # Vite HMR + live API in one process
+npm run build && npm run serve   # build the SPA, serve it + the API
 
-# Dev — Vite HMR + live API in one process (http://localhost:5180)
-npm run dev
-
-# Production — build the SPA, then serve it + the API on one port
-npm run build
-H5I_REPO=/path/to/your/h5i/repo PORT=8787 npm run serve
+npm test             # parsers + event-fold + live API (no browser)
+npm run test:e2e     # Playwright DOM e2e + GIF export (optional)
 ```
 
-### Seeing data
-
-Fleet Command shows whatever team runs exist on the target clone. To create one:
-
-```bash
-h5i env create alice && h5i env create bob
-h5i team create my-run --title "Refactor auth" --rounds 2
-h5i team add-env my-run alice
-h5i team add-env my-run bob
-# … agents work in their envs, then:
-h5i team submit my-run --agent <id>
-h5i team freeze my-run
-h5i team verify my-run --agent <id> -- <test cmd>
-h5i team finalize my-run
-```
+The bundled `--demo` fleet is what the end-to-end tests run against, so the demo stays correct.
 
 ---
 
-## Tests
+## 6. License
 
-```bash
-npm test         # parsers + event-fold + live API integration  (no browser)
-npm run test:e2e # Playwright DOM e2e against the built SPA      (optional)
-npm run test:all # everything
-```
-
-- **`test/parse.test.mjs`** — the CLI-text parsers, against fixtures captured
-  verbatim from the real `h5i` 0.2.x CLI (msg history plain+rich merge, roster,
-  context, ANSI stripping).
-- **`test/derive.test.mjs`** — the event-log projection: verdict precedence
-  (a later `verdict` overrides an earlier `no_verdict`), reviews, grants,
-  discussion, and totality over empty input.
-- **`test/api.test.mjs`** — boots the real Express router over HTTP against the
-  live `h5i` CLI; team-specific cases skip (not fail) when no team is present, so
-  the suite is green on a fresh clone.
-- **`test/e2e.test.mjs`** — drives a real Chromium via Playwright, asserting the
-  deck renders from live data with no runtime errors. Self-skips when the bundle
-  isn't built or no browser is available.
-- **`test/gif.test.mjs`** — runs the replay→GIF exporter end-to-end and asserts a
-  valid, non-trivial animated GIF is produced (same self-skip guards).
-
----
-
-## Releasing
-
-Published to npm as **`@h5i/studio`**. The tarball ships the pre-built `dist/`
-plus the Express server (`prepack` builds it); `vite`/`react` stay devDeps and
-are never installed by consumers — the only runtime dependency is `express`.
-
-```bash
-npm version patch        # bump package.json + create the git tag
-git push --follow-tags   # → .github/workflows/release.yml publishes on the v* tag
-```
-
-The release workflow typechecks, tests, builds, verifies the tag matches the
-package version, and runs `npm publish --provenance --access public`. It needs a
-repo secret **`NPM_TOKEN`** (an npm automation token). To publish by hand:
-`npm publish` (runs `prepack` → build automatically). `npm pack --dry-run`
-previews the exact tarball.
-
-## Theme notes
-
-- Palette: deep-space navy void, phosphor cyan, hazard amber, plasma magenta,
-  go-green. Corner-bracketed glass panels, scanline + vignette overlays.
-- Type: Orbitron (display), Rajdhani (UI), Share Tech Mono (instrument data).
-- Each agent's craft + livery hue is a deterministic hash of its call-sign, so an
-  operative reads as the same ship everywhere — generated as SVG, zero assets.
-- Respects `prefers-reduced-motion` (the starfield holds still).
+Apache-2.0 — see [LICENSE](LICENSE). Built for, and on top of, [h5i](https://github.com/Koukyosyumei/h5i).
