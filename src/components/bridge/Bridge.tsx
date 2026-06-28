@@ -19,6 +19,7 @@ export function Bridge({
   focused,
   replaying,
   onToggleFocus,
+  onSelectAgent,
 }: {
   detail: TeamDetail;
   active: ActiveSource | null;
@@ -26,6 +27,7 @@ export function Bridge({
   focused: boolean;
   replaying: boolean;
   onToggleFocus: () => void;
+  onSelectAgent: (name: string) => void;
 }) {
   const beat = useMemo(() => computeBeat(detail, active, crew), [detail, active, crew]);
   const agents = detail.run.agents;
@@ -108,6 +110,7 @@ export function Bridge({
             y={p.y}
             scale={p.scale}
             z={p.z}
+            onSelect={onSelectAgent}
           />
         ))}
       </div>

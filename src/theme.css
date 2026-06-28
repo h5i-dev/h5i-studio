@@ -1033,6 +1033,23 @@ button.btn:disabled {
 .modal .panel-head {
   cursor: default;
 }
+
+/* operative dossier (tap a crew member) */
+.agent-profile {
+  width: min(500px, 94vw);
+  background: var(--panel-solid);
+  animation: pop 0.18s ease;
+}
+.agent-profile .panel-head {
+  gap: 8px;
+}
+.agent-profile .ap-glyph {
+  display: inline-flex;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.5));
+}
+.agent-profile .panel-body .statline {
+  margin-left: 4px;
+}
 .modal-tabs {
   display: flex;
   gap: 4px;
@@ -1839,6 +1856,23 @@ button.btn:disabled {
   border-radius: 999px;
   padding: 3px 9px;
   backdrop-filter: blur(3px);
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+/* tap a crew member to open their dossier */
+.actor.clickable .actor-body,
+.actor.clickable .nametag {
+  cursor: pointer;
+}
+.actor.clickable:hover .nametag,
+.actor.clickable:focus-visible .nametag {
+  border-color: hsl(var(--hue) 85% 62%);
+  box-shadow: 0 0 16px -3px hsl(var(--hue) 90% 60%);
+}
+.actor.clickable:hover .pilot {
+  filter: brightness(1.18) drop-shadow(0 0 12px hsl(var(--hue) 90% 55% / 0.55));
+}
+.actor.clickable:focus-visible {
+  outline: none;
 }
 .nametag b { font-family: var(--f-display); font-weight: 600; font-size: 12px; letter-spacing: 0.1em; }
 .nametag .cs { font-family: var(--f-mono); font-size: 8px; color: var(--ink-faint); letter-spacing: 0.1em; }

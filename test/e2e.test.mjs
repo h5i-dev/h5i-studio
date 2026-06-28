@@ -122,7 +122,7 @@ test("opening the hero mission renders every deck panel + diff modal", async (t)
   await page.waitForTimeout(600);
 
   const heads = await page.$$eval(".panel-head h3", (els) => els.map((e) => e.textContent));
-  for (const want of ["Candidates", "Launch Authority", "Squadron", "Comms Channel"]) {
+  for (const want of ["Candidates", "Comms Channel"]) {
     assert.ok(heads.includes(want), `expected panel "${want}", saw ${JSON.stringify(heads)}`);
   }
   // The Bridge (meeting room) is the centrepiece: central computer + crew.
@@ -135,8 +135,8 @@ test("opening the hero mission renders every deck panel + diff modal", async (t)
   assert.ok(await page.locator(".deck-head .mname").isVisible(), "mission title visible");
   assert.ok(await page.locator(".replay-toggle").isVisible(), "REPLAY button visible");
 
-  // Live state: atlas is the selected winner → GO.
-  assert.ok(await page.$(".gng-lamp.go"), "live verdict shows GO");
+  // Live state: atlas is the selected winner → the winning candidate is marked.
+  assert.ok(await page.$(".cand.win"), "winning candidate marked");
   assert.ok((await page.$$(".phaserail .node")).length >= 5);
 
   // Flight plan opens a real diff.
@@ -145,6 +145,35 @@ test("opening the hero mission renders every deck panel + diff modal", async (t)
   assert.match(await page.textContent(".modal .panel-head h3"), /FLIGHT PLAN/);
   assert.match(await page.textContent(".modal .diff"), /diff --git/);
   await page.keyboard.press("Escape");
+
+  assert.deepEqual(errors, []);
+  await page.close();
+});
+
+test("tapping a crew member opens their operative dossier", async (t) => {
+  if (reason) return t.skip(reason);
+  const { page, errors } = await newPage();
+  await page.goto(`${base}/#/nebula-auth`, { waitUntil: "domcontentloaded" });
+  await page.waitForSelector(".deck-grid");
+  await page.waitForSelector(".stage .actor.clickable .nametag");
+  await page.waitForTimeout(900);
+
+  // No standalone Squadron panel any more — the room is the squadron.
+  const heads = await page.$$eval(".panel-head h3", (els) => els.map((e) => e.textContent));
+  assert.ok(!heads.includes("Squadron"), "Squadron panel removed");
+  assert.ok(!heads.includes("Launch Authority"), "Launch Authority panel removed");
+
+  // A real click on a crew member's figure opens the dossier. (`.actor` is a
+  // zero-size anchor; the visible figure is its children, so click the nametag.)
+  const nametag = page.locator(".stage .actor.clickable").first().locator(".nametag");
+  await nametag.scrollIntoViewIfNeeded();
+  await nametag.click();
+  await page.waitForSelector(".agent-profile", { timeout: 8000 });
+  const body = await page.textContent(".agent-profile .panel-body");
+  assert.match(body, /env\//, "dossier shows the bound env");
+  assert.match(body, /supervised|container|workspace|process/, "dossier shows isolation");
+  await page.keyboard.press("Escape");
+  assert.ok(!(await page.$(".agent-profile")), "dossier closes on Escape");
 
   assert.deepEqual(errors, []);
   await page.close();
@@ -169,16 +198,15 @@ test("Mission Replay reconstructs earlier state, then returns to live", async (t
   // The round is sealed but not yet verified → phase SEALED, verdict pending.
   const curPhase = await page.$$eval(".deck-head .phaserail .node.current .lbl", (e) => e.map((x) => x.textContent));
   assert.ok(curPhase.includes("SEALED"), `expected SEALED at round seal, saw ${JSON.stringify(curPhase)}`);
-  assert.ok(!(await page.$(".gng-lamp.go")), "no GO verdict mid-mission");
-  assert.ok(await page.$(".gng-lamp.nogo"), "Launch Authority is NO-GO before verification");
-  // Mid-mission the candidates are sealed but unverified (no GO gate yet).
+  // No winner is selected yet mid-mission; candidates are reconstructed.
+  assert.ok(!(await page.$(".cand.win")), "no winning candidate before the verdict");
   assert.ok((await page.$$(".cand")).length >= 1, "candidates reconstructed at the seal");
 
-  // Exit replay → back to the live GO state.
+  // Exit replay → back to the live state with the winner marked.
   await page.click(".rb-exit");
   await page.waitForTimeout(300);
   assert.ok(!(await page.$(".replaybar")), "replay bar dismissed");
-  assert.ok(await page.$(".gng-lamp.go"), "live GO restored after exit");
+  assert.ok(await page.$(".cand.win"), "live winner restored after exit");
 
   assert.deepEqual(errors, []);
   await page.close();

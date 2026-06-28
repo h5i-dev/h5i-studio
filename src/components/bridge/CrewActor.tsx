@@ -27,6 +27,7 @@ export function CrewActor({
   y,
   scale = 1,
   z = 1,
+  onSelect,
 }: {
   name: string;
   state: ActorState;
@@ -36,6 +37,7 @@ export function CrewActor({
   y: number;
   scale?: number;
   z?: number;
+  onSelect?: (name: string) => void;
 }) {
   const hue = agentHue(name);
   const dur = 4 + hash01(name) * 2.5; // 4–6.5s ambient bob, desynced per agent
@@ -44,7 +46,7 @@ export function CrewActor({
 
   return (
     <div
-      className={`actor actor--${state}${speaking ? " speaking" : ""}`}
+      className={`actor actor--${state}${speaking ? " speaking" : ""}${onSelect ? " clickable" : ""}`}
       style={{
         left: `${x}%`,
         top: `${y}%`,
@@ -55,6 +57,11 @@ export function CrewActor({
         ["--bob-delay" as string]: `${delay}s`,
         ["--sway" as string]: `${sway}px`,
       }}
+      onClick={onSelect ? () => onSelect(name) : undefined}
+      role={onSelect ? "button" : undefined}
+      tabIndex={onSelect ? 0 : undefined}
+      onKeyDown={onSelect ? (e) => (e.key === "Enter" || e.key === " ") && onSelect(name) : undefined}
+      title={onSelect ? `${name} — open dossier` : undefined}
     >
       {line && speaking && (
         <div className="bubble">

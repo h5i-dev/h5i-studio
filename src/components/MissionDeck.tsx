@@ -13,9 +13,8 @@ import { ReplayBar, type Mark } from "./ReplayBar";
 import { Bridge } from "./bridge/Bridge";
 import { Chip, Spinner } from "./ui";
 import { DiffViewer } from "./DiffViewer";
-import { SquadronRoster } from "./panels/SquadronRoster";
+import { AgentProfile } from "./AgentProfile";
 import { CandidatePanel } from "./panels/CandidatePanel";
-import { GoNoGo } from "./panels/GoNoGo";
 import { CommsChannel } from "./panels/CommsChannel";
 
 interface TimelineItem {
@@ -46,6 +45,7 @@ export function MissionDeck({
   const compare = usePoll<CompareRow[]>(fetchCompare, intervalMs);
 
   const [modal, setModal] = useState<{ id: string; owner: string } | null>(null);
+  const [profile, setProfile] = useState<string | null>(null);
   const [focused, setFocused] = useState(false);
   const live = detail.data;
 
@@ -134,7 +134,7 @@ export function MissionDeck({
   const { run, derived } = view;
   const pd = phaseDef(run.phase);
   const tone = phaseTone(run.phase);
-  const shownCompare = replay.active ? [] : compare.data ?? [];
+  const profileAgent = profile ? run.agents.find((a) => a.agent_id === profile) ?? null : null;
 
   return (
     <>
@@ -176,16 +176,15 @@ export function MissionDeck({
           focused={focused}
           replaying={replay.active}
           onToggleFocus={() => setFocused((f) => !f)}
+          onSelectAgent={setProfile}
         />
 
         {!focused && (
         <div className="deck-grid">
           <div className="deck-col">
             <CandidatePanel run={run} verdict={derived.verdict} onOpen={(id, owner) => setModal({ id, owner })} />
-            <GoNoGo run={run} verdict={derived.verdict} />
           </div>
           <div className="deck-col">
-            <SquadronRoster agents={run.agents} compare={shownCompare} roster={roster} />
             <CommsChannel
               reviews={derived.reviews}
               discussions={derived.discussions}
@@ -197,6 +196,19 @@ export function MissionDeck({
         </div>
         )}
       </div>
+
+      {profileAgent && (
+        <AgentProfile
+          agent={profileAgent}
+          compare={compare.data?.find((c) => c.agent_id === profileAgent.agent_id) ?? null}
+          roster={roster.find((r) => r.name === profileAgent.agent_id) ?? null}
+          onClose={() => setProfile(null)}
+          onFlightPlan={(id, owner) => {
+            setProfile(null);
+            setModal({ id, owner });
+          }}
+        />
+      )}
 
       {modal && (
         <DiffViewer team={teamId} artifactId={modal.id} owner={modal.owner} onClose={() => setModal(null)} />

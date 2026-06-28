@@ -66,18 +66,19 @@ team events and radio chatter interleaved chronologically on one scrubber.
 A team run (`h5i team`) is an event-sourced state machine. Below the Bridge,
 Fleet Command renders every part of the lifecycle:
 
-| Deck panel | h5i concept | Source |
+| Deck element | h5i concept | Source |
 |---|---|---|
 | **Fleet Operations** | all team runs, phase + crew + sealed count | `team list --json` |
 | **Phase rail** | `draft → sealed → review → eval → cleared → launched` | `run.phase` |
-| **Squadron** | roster agents as ships: env, isolation, runtime, live tool/exit | `team status` + `team compare` + `msg team` |
+| **Operative dossier** (tap a crew member) | env, isolation, runtime/model, state, live tool/exit, submission | `team status` + `team compare` + `msg team` |
 | **Candidates** | sealed submissions: diff envelope, verifier gates, winner | `run.submissions` + `run.verifications` |
 | **Flight Plan** (modal) | a submission's diff / summary / test evidence | `team artifact show` |
-| **Launch Authority** | GO/HOLD/NO-GO verdict, deciding rule, reasons | folded from `verdict` / `no_verdict` events |
 | **Comms Channel** | peer reviews, grants, discussion, crew radio | folded from events + `msg history` |
 
-The full event log still drives the replay scrubber; the timeline is shown there
-rather than as a separate panel, to keep the meeting room the focus.
+The verdict is shown in the room (the central computer announces GO/NO-GO) and as
+the winning candidate's badge, rather than as a separate panel. The full event
+log drives the replay scrubber. Tapping a crew member in the room opens their
+dossier — the room *is* the squadron.
 
 The console polls continuously (4 s on an open deck, 8 s ambient) with a LIVE /
 IDLE / LOST uplink indicator.
