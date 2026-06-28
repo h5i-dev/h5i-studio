@@ -34,3 +34,4 @@
 [13:40:04] OBSERVE: read biome.json
 [13:40:06] OBSERVE: read cli_routing.rs
 [13:40:06] OBSERVE: read init-db.sh
+[13:40:06] OBSERVE: read history.sh
