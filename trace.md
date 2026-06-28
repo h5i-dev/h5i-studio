@@ -5,3 +5,4 @@
 [13:39:10] OBSERVE: read README.md
 [13:39:10] OBSERVE: read .gitignore
 [13:39:32] OBSERVE: read package.json
+[13:39:33] OBSERVE: read vite.config.ts
