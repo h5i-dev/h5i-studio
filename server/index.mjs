@@ -29,9 +29,22 @@ export function startServer(opts = {}) {
   app.use("/api", createApiRouter({ demo }));
 
   if (hasDist) {
-    app.use(express.static(DIST));
-    // SPA fallback — anything not under /api serves index.html.
-    app.get(/^(?!\/api\/).*/, (_req, res) => res.sendFile(join(DIST, "index.html")));
+    // Hashed assets are immutable; index.html must always be revalidated so a
+    // rebuild's new asset hashes are picked up (never serve a stale shell).
+    app.use(
+      express.static(DIST, {
+        setHeaders(res, filePath) {
+          if (filePath.endsWith("index.html")) res.setHeader("Cache-Control", "no-cache");
+          else if (/[\\/]assets[\\/]/.test(filePath))
+            res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+        },
+      }),
+    );
+    // SPA fallback — anything not under /api serves index.html (no-cache).
+    app.get(/^(?!\/api\/).*/, (_req, res) => {
+      res.setHeader("Cache-Control", "no-cache");
+      res.sendFile(join(DIST, "index.html"));
+    });
   } else {
     app.get(/^(?!\/api\/).*/, (_req, res) =>
       res
