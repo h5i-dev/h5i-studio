@@ -251,3 +251,16 @@ Tapping a crew figure opens AgentProfile (env/isolation/runtime/state/telemetry/
 
 ---
 
+## Commit 6a416a08 — 2026-06-28 18:38 UTC
+
+### Branch Purpose
+Primary development branch
+
+### Previous Progress Summary
+Tapping a crew figure opens AgentProfile (env/isolation/runtime/state/telemetry/flight-plan). Removed Squadron + Launch Authority panels; console now Candidates+Comms. 45 tests pass.
+
+### This Commit's Contribution
+
+
+---
+
