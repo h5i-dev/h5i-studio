@@ -36,3 +36,4 @@
 [13:40:06] OBSERVE: read init-db.sh
 [13:40:06] OBSERVE: read history.sh
 [13:40:08] OBSERVE: read details.md
+[13:40:13] OBSERVE: read watch.sh
