@@ -238,3 +238,35 @@ test("radio chatter (h5i msg) is woven into the performance and spoken on stage"
   assert.deepEqual(errors, []);
   await page.close();
 });
+
+test("replay loops continuously from start to end", async (t) => {
+  if (reason) return t.skip(reason);
+  const { page, errors } = await newPage();
+  await page.goto(`${base}/#/nebula-auth`, { waitUntil: "domcontentloaded" });
+  await page.waitForSelector(".bridge");
+  await page.waitForTimeout(500);
+
+  await page.$eval(".replay-toggle", (el) => el.click());
+  await page.waitForSelector(".replaybar");
+  assert.ok(await page.$(".rb-loop"), "loop indicator present");
+  // Run at 8× so a full loop completes within the budget.
+  for (let i = 0; i < 3; i++) await page.$eval(".rb-btn.speed", (el) => el.click());
+
+  const cursor = () => page.$eval(".rb-count", (el) => parseInt(el.textContent, 10));
+  let reachedEnd = false;
+  let wrapped = false;
+  let prev = await cursor();
+  for (let i = 0; i < 60 && !wrapped; i++) {
+    await page.waitForTimeout(200);
+    const c = await cursor();
+    if (c >= 20) reachedEnd = true;
+    if (reachedEnd && c < prev - 2) wrapped = true; // looped back toward the start
+    prev = c;
+  }
+  assert.ok(reachedEnd, "playback advanced to the end of the timeline");
+  assert.ok(wrapped, "playback looped back to the beginning");
+  assert.ok(await page.$(".rb-loop.on"), "still playing after the loop");
+
+  assert.deepEqual(errors, []);
+  await page.close();
+});

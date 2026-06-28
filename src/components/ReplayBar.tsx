@@ -25,6 +25,7 @@ export function ReplayBar({ replay, marks }: { replay: Replay; marks: Mark[] }) 
     <div className="replaybar panel">
       <div className="rb-row">
         <span className="rb-tag">◉ MISSION REPLAY</span>
+        <span className={`rb-loop${playing ? " on" : ""}`} title="playback loops continuously">⟳ LOOP</span>
 
         <div className="rb-transport">
           <button className="rb-btn" onClick={replay.toStart} title="to start" aria-label="to start">⏮</button>

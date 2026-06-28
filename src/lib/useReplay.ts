@@ -17,9 +17,14 @@ export interface Replay {
 }
 
 const SPEEDS = [1, 2, 4, 8];
-const STEP_MS = 1100;
+const STEP_MS = 1100; // ≈ 1s between beats at 1×
+const END_HOLD_MS = 2200; // dwell on the final beat before the loop restarts
 
-/** Drives mission-replay playback over a fixed number of timeline events. */
+/**
+ * Drives mission-replay playback over a fixed number of timeline beats. Playback
+ * loops: on reaching the end it holds briefly on the final beat, then restarts
+ * from the top — so the operation replays as a continuous performance.
+ */
 export function useReplay(total: number): Replay {
   const [active, setActive] = useState(false);
   const [cursor, setCursor] = useState(total);
@@ -32,10 +37,11 @@ export function useReplay(total: number): Replay {
   }, [total, active]);
 
   useEffect(() => {
-    if (!active || !playing) return;
+    if (!active || !playing || total === 0) return;
     if (cursor >= total) {
-      setPlaying(false);
-      return;
+      // Loop: hold on the final beat, then restart from the top.
+      const id = setTimeout(() => setCursor(0), END_HOLD_MS / speed);
+      return () => clearTimeout(id);
     }
     const id = setTimeout(() => setCursor((c) => Math.min(total, c + 1)), STEP_MS / speed);
     return () => clearTimeout(id);

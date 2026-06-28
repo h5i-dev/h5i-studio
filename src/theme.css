@@ -1270,6 +1270,19 @@ button.btn:disabled {
   color: var(--plasma);
   text-shadow: 0 0 14px rgba(255, 93, 177, 0.5);
 }
+.rb-loop {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--ink-faint);
+  border: 1px solid var(--edge);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+.rb-loop.on {
+  color: var(--plasma);
+  border-color: rgba(255, 93, 177, 0.5);
+}
 .rb-transport {
   display: flex;
   gap: 6px;
