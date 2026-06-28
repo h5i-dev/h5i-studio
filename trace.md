@@ -143,3 +143,4 @@ _[Checkpoint: 6a412b9f — Built full Fleet Command viewer for h5i team + tests]
 [14:12:50] THINK: Backend done. Let me install deps and verify the API works against the live demo team before building the frontend.
 [14:12:50] THINK: Only Node 18 is available, so I'll pin Vite to v5 (Node 18-compatible) and reinstall.
 [14:12:50] THINK: Now the frontend. Let me write the types and API client.
+[14:12:50] THINK: Noted — I'll add a full test suite (the CLI-text parsers especially need coverage).
