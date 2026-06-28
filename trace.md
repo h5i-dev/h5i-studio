@@ -41,3 +41,4 @@
 [13:40:15] OBSERVE: read whoami.sh
 [13:40:16] OBSERVE: read join.sh
 [13:40:18] OBSERVE: read main.rs
+[13:40:19] OBSERVE: read session-start.sh
