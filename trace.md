@@ -189,3 +189,4 @@ _[Checkpoint: 6a413bfb — wrote .github/workflows/ci.yml; edited README.md; edi
 [15:29:28] ACT: wrote src/lib/useReplay.ts
 [15:29:44] ACT: wrote src/components/ReplayBar.tsx
 [15:30:22] ACT: wrote src/components/MissionDeck.tsx
+[15:30:28] ACT: edited src/components/MissionDeck.tsx
