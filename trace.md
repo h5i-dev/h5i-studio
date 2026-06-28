@@ -345,3 +345,4 @@ _[Checkpoint: 6a4151d9 — edited src/lib/events.ts; edited src/theme.css; edite
 ---
 
 [17:18:24] ACT: edited src/lib/useReplay.ts
+[17:18:49] ACT: wrote src/components/bridge/HostCore.tsx
