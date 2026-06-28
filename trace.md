@@ -183,3 +183,4 @@ _[Checkpoint: 6a413bfb — wrote .github/workflows/ci.yml; edited README.md; edi
 [15:26:32] ACT: edited bin/h5i-studio.mjs
 [15:26:39] ACT: edited bin/h5i-studio.mjs
 [15:26:54] ACT: edited bin/h5i-studio.mjs
+[15:27:44] ACT: edited server/demo.mjs
