@@ -45,3 +45,4 @@
 [13:40:19] OBSERVE: read agmsg.js
 [13:40:20] OBSERVE: read main.rs
 [13:40:23] OBSERVE: read plugin.json
+[13:40:25] OBSERVE: read SKILL.md
