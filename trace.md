@@ -393,3 +393,9 @@ _[Checkpoint: 6a4151d9 — edited src/lib/events.ts; edited src/theme.css; edite
 _[Checkpoint: 6a415aba — Redesigned Bridge as Among-Us spaceship meeting room]_
 ---
 
+
+
+---
+_[Checkpoint: 6a415ac9 — edited src/components/MissionDeck.tsx; edited README.md; edited README.md]_
+---
+

@@ -212,3 +212,16 @@ Full room backdrop (hull/viewports/stations/floor), crew scattered with depth, M
 
 ---
 
+## Commit 6a415ac9 — 2026-06-28 17:32 UTC
+
+### Branch Purpose
+Primary development branch
+
+### Previous Progress Summary
+Full room backdrop (hull/viewports/stations/floor), crew scattered with depth, Mission Director as central computer (holo core on server pedestal) in room center. Slower replay (2.1s), bigger bubbles. Dropped Flight Recorder + Nav Log panels. 44 tests pass. Live on :8787.
+
+### This Commit's Contribution
+
+
+---
+
