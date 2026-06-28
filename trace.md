@@ -198,3 +198,4 @@ _[Checkpoint: 6a413bfb — wrote .github/workflows/ci.yml; edited README.md; edi
 [15:32:44] OBSERVE: read d1-fleet.png
 [15:34:29] OBSERVE: read debug.png
 [15:37:32] OBSERVE: read d3-replay-mid.png
+[15:38:17] ACT: wrote test/demo.test.mjs
