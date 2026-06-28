@@ -344,3 +344,4 @@ _[Checkpoint: 6a414ed9 — edited test/e2e.test.mjs; edited server/index.mjs; ed
 _[Checkpoint: 6a4151d9 — edited src/lib/events.ts; edited src/theme.css; edited src/components/panels/MissionLog.tsx]_
 ---
 
+[17:18:24] ACT: edited src/lib/useReplay.ts
