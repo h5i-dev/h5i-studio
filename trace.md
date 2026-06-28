@@ -38,3 +38,4 @@
 [13:40:08] OBSERVE: read details.md
 [13:40:13] OBSERVE: read watch.sh
 [13:40:15] OBSERVE: read watch.sh
+[13:40:15] OBSERVE: read whoami.sh
