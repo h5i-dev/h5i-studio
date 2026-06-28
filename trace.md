@@ -63,3 +63,4 @@
 [13:40:57] OBSERVE: read delivery.sh
 [13:40:58] OBSERVE: read delivery.sh
 [13:40:59] OBSERVE: read TeamView.tsx
+[13:41:00] OBSERVE: read test_storage.bats
