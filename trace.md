@@ -309,3 +309,4 @@ _[Checkpoint: 6a4148b8 — edited test/e2e.test.mjs; edited src/theme.css; edite
 _[Checkpoint: 6a414a85 — edited src/components/ReplayBar.tsx; edited src/theme.css; edited test/e2e.test.mjs]_
 ---
 
+[16:31:31] OBSERVE: read diag-deck.png
