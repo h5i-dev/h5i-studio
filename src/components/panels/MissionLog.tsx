@@ -29,11 +29,13 @@ export function MissionLog({ events, highlightId }: { events: TeamEvent[]; highl
               </span>
               <div className="body">
                 <div className="line1">
-                  <span className="kind" style={{ color }}>{v.label}</span>
-                  <span className="actor">@{ev.actor}</span>
-                  {ev.phase_after && ev.phase_after !== ev.phase_before && (
-                    <span className="faint mono" style={{ fontSize: 9 }}>→ {ev.phase_after}</span>
-                  )}
+                  <div className="line1-main">
+                    <span className="kind" style={{ color }}>{v.label}</span>
+                    <span className="actor">@{ev.actor}</span>
+                    {ev.phase_after && ev.phase_after !== ev.phase_before && (
+                      <span className="faint mono" style={{ fontSize: 9, whiteSpace: "nowrap" }}>→ {ev.phase_after}</span>
+                    )}
+                  </div>
                   <span className="t" title={ev.ts}>
                     {clockTime(ev.ts)} · {relTime(ev.ts)}
                   </span>

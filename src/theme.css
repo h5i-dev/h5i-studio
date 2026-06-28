@@ -900,6 +900,10 @@ button.btn:disabled {
   display: grid;
   place-items: center;
   font-size: 12px;
+  line-height: 1;
+  /* Clip the glyph to the circle so a wide symbol can never bleed onto the
+     kind label to its right. */
+  overflow: hidden;
   background: var(--hull);
   border: 1px solid var(--edge);
   color: var(--phosphor);
@@ -914,7 +918,15 @@ button.btn:disabled {
   display: flex;
   align-items: baseline;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+}
+.log-row .line1-main {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
 }
 .log-row .kind {
   font-family: var(--f-mono);
@@ -922,17 +934,23 @@ button.btn:disabled {
   letter-spacing: 0.14em;
   color: var(--ice);
   text-transform: uppercase;
+  white-space: nowrap;
+  flex: 0 0 auto;
 }
 .log-row .actor {
   font-family: var(--f-mono);
   font-size: 10px;
   color: var(--amber);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .log-row .t {
   font-family: var(--f-mono);
   font-size: 10px;
   color: var(--ink-faint);
-  margin-left: auto;
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 .log-row .detail {
   font-family: var(--f-mono);

@@ -38,7 +38,7 @@ export function describeEvent(ev: TeamEvent): EventViz {
       };
     case "frozen":
       return {
-        glyph: "❄",
+        glyph: "❄︎", // VS15 → monochrome/text, not a wide colour emoji
         tone: "plasma",
         label: "ROUND SEALED",
         detail: Array.isArray(p.missing_agents) && p.missing_agents.length
@@ -54,7 +54,7 @@ export function describeEvent(ev: TeamEvent): EventViz {
       };
     case "review_submitted":
       return {
-        glyph: "✍",
+        glyph: "✍︎",
         tone: "live",
         label: "REVIEW FILED",
         detail: `${str(p.reviewer)} → ${str(p.target)}`,
