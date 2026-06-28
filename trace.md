@@ -15,3 +15,4 @@
 [13:39:42] OBSERVE: read App.tsx
 [13:39:45] OBSERVE: read agmsg.ts
 [13:39:45] OBSERVE: read i18n.ts
+[13:39:45] OBSERVE: read CharacterActor.tsx
