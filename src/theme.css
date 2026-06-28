@@ -69,7 +69,10 @@ body {
   inset: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 0;
+  /* Behind all app content. The trail-fade accumulates toward opaque, so a
+     z-index >= 0 here would paint over non-`backdrop-filter` content such as the
+     deck header (and its REPLAY button). Keep it strictly in the background. */
+  z-index: -1;
   display: block;
 }
 

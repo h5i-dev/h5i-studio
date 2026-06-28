@@ -125,6 +125,12 @@ test("opening the hero mission renders every deck panel + diff modal", async (t)
   for (const want of ["Candidates", "Launch Authority", "Squadron", "Flight Recorder", "Comms Channel"]) {
     assert.ok(heads.includes(want), `expected panel "${want}", saw ${JSON.stringify(heads)}`);
   }
+  // The deck header and its REPLAY control must actually be visible (not painted
+  // over by the starfield). isVisible() guards display/size; the real click in
+  // the replay tests additionally guards against occlusion.
+  assert.ok(await page.locator(".deck-head .mname").isVisible(), "mission title visible");
+  assert.ok(await page.locator(".replay-toggle").isVisible(), "REPLAY button visible");
+
   // Live state: atlas is the selected winner → GO.
   assert.ok(await page.$(".gng-lamp.go"), "live verdict shows GO");
   assert.ok((await page.$$(".phaserail .node")).length >= 5);
@@ -147,8 +153,10 @@ test("Mission Replay reconstructs earlier state, then returns to live", async (t
   await page.waitForSelector(".deck-grid");
   await page.waitForTimeout(600);
 
-  // Engage replay (el.click bypasses Playwright actionability vs. the polling re-render).
-  await page.$eval(".replay-toggle", (el) => el.click());
+  // A *real* click — it hit-tests, so it fails if the button is occluded (e.g.
+  // by the starfield painting over the deck header). This is the regression
+  // guard for the "no REPLAY button visible" bug.
+  await page.click(".replay-toggle");
   await page.waitForSelector(".replaybar");
 
   // Seek to the "frozen" beat by label — robust to radio chatter interleaving.
@@ -164,7 +172,7 @@ test("Mission Replay reconstructs earlier state, then returns to live", async (t
   assert.equal(logRows, 8, "recorder shows exactly the 8 revealed events");
 
   // Exit replay → back to the live GO state.
-  await page.$eval(".rb-exit", (el) => el.click());
+  await page.click(".rb-exit");
   await page.waitForTimeout(300);
   assert.ok(!(await page.$(".replaybar")), "replay bar dismissed");
   assert.ok(await page.$(".gng-lamp.go"), "live GO restored after exit");
@@ -184,9 +192,9 @@ test("the Bridge performs the operation: crew speak, the Director announces the 
   assert.equal((await page.$$(".stage .actor")).length, 3);
   assert.ok(await page.$(".host"), "Mission Director present");
 
-  await page.$eval(".replay-toggle", (el) => el.click());
+  await page.click(".replay-toggle");
   await page.waitForSelector(".replaybar");
-  await page.$eval(".rb-btn.play", (el) => el.click()); // pause
+  await page.click(".rb-btn.play"); // pause
 
   // nova's review beat: the speaking actor shows a bubble with the text, and the
   // caption attributes the line to nova.
@@ -215,9 +223,9 @@ test("radio chatter (h5i msg) is woven into the performance and spoken on stage"
   await page.waitForSelector(".bridge");
   await page.waitForTimeout(500);
 
-  await page.$eval(".replay-toggle", (el) => el.click());
+  await page.click(".replay-toggle");
   await page.waitForSelector(".replaybar");
-  await page.$eval(".rb-btn.play", (el) => el.click()); // pause
+  await page.click(".rb-btn.play"); // pause
 
   // The timeline interleaves radio marks with team-event marks.
   assert.ok((await page.$$(".rb-tick.radio")).length > 0, "radio marks present on the timeline");
@@ -246,11 +254,11 @@ test("replay loops continuously from start to end", async (t) => {
   await page.waitForSelector(".bridge");
   await page.waitForTimeout(500);
 
-  await page.$eval(".replay-toggle", (el) => el.click());
+  await page.click(".replay-toggle");
   await page.waitForSelector(".replaybar");
   assert.ok(await page.$(".rb-loop"), "loop indicator present");
   // Run at 8× so a full loop completes within the budget.
-  for (let i = 0; i < 3; i++) await page.$eval(".rb-btn.speed", (el) => el.click());
+  for (let i = 0; i < 3; i++) await page.click(".rb-btn.speed");
 
   const cursor = () => page.$eval(".rb-count", (el) => parseInt(el.textContent, 10));
   let reachedEnd = false;
