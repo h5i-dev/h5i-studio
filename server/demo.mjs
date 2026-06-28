@@ -428,15 +428,15 @@ const MIGRATE = buildMigrate();
 const RUNS = { [HERO.run.id]: HERO, [CACHE.run.id]: CACHE, [MIGRATE.run.id]: MIGRATE };
 
 const MESSAGES = [
-  { from: "human", to: "all", kind: "DISPATCH", min: 11.5, body: "Mission: close the token-refresh race. Independent candidates, then we verify and finalize on smallest passing diff." },
-  { from: "soren", to: "human", kind: "ACK", min: 11.3, body: "On it — going single-flight." },
-  { from: "nova", to: "human", kind: "ACK", min: 11.2, body: "Taking the resilient/retry angle." },
-  { from: "atlas", to: "human", kind: "ACK", min: 11.0, body: "I'll try the minimal lock-based fix." },
+  { from: "human", to: "all", kind: "DISPATCH", min: 11.6, body: "Mission: close the token-refresh race. Independent candidates, then we verify and finalize on smallest passing diff." },
+  { from: "soren", to: "human", kind: "ACK", min: 10.4, body: "On it — going single-flight." },
+  { from: "nova", to: "human", kind: "ACK", min: 10.3, body: "Taking the resilient/retry angle." },
+  { from: "atlas", to: "human", kind: "ACK", min: 10.2, body: "I'll try the minimal lock-based fix." },
   { from: "human", to: "nova", kind: "REVIEW_REQUEST", min: 4.6, body: "Review soren's submission.", focus: SUBS.soren.id },
-  { from: "nova", to: "soren", kind: "REVIEW", min: 4.2, body: "Single-flight LGTM; surface fetch errors to all awaiters." },
-  { from: "atlas", to: "soren", kind: "REVIEW", min: 3.6, body: "Either closes the race; yours is more self-contained." },
-  { from: "soren", to: "all", kind: "DISCUSS", min: 3.0, body: "Defer to the verifier on smallest passing diff — atlas's is smaller." },
-  { from: "human", to: "all", kind: "TEAM_DONE", min: 1.0, body: "Verdict in: atlas cleared for launch. Nice work." },
+  { from: "nova", to: "soren", kind: "REVIEW", min: 4.1, body: "Single-flight LGTM; surface fetch errors to all awaiters." },
+  { from: "atlas", to: "soren", kind: "REVIEW", min: 3.5, body: "Either closes the race; yours is more self-contained." },
+  { from: "soren", to: "all", kind: "DISCUSS", min: 2.9, body: "Defer to the verifier on smallest passing diff — atlas's is smaller." },
+  { from: "human", to: "all", kind: "TEAM_DONE", min: 0.9, body: "Verdict in: atlas cleared for launch. Nice work." },
 ];
 
 function messagesList(limit = 60) {

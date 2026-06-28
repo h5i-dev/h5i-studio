@@ -5,9 +5,11 @@ import { phaseDef, phaseTone, isStalled } from "../lib/phases";
 import { relTime, shortOid } from "../lib/format";
 import { usePoll } from "../lib/usePoll";
 import { useReplay } from "../lib/useReplay";
-import { reconstruct, sortedAsc } from "../lib/replay";
+import { reconstructFromEvents } from "../lib/replay";
+import { describeEvent } from "../lib/events";
+import type { ActiveSource } from "../lib/performance";
 import { PhaseRail } from "./PhaseRail";
-import { ReplayBar } from "./ReplayBar";
+import { ReplayBar, type Mark } from "./ReplayBar";
 import { Bridge } from "./bridge/Bridge";
 import { Chip, Spinner } from "./ui";
 import { DiffViewer } from "./DiffViewer";
@@ -17,6 +19,11 @@ import { GoNoGo } from "./panels/GoNoGo";
 import { MissionLog } from "./panels/MissionLog";
 import { CommsChannel } from "./panels/CommsChannel";
 import { ContextStrip } from "./panels/ContextStrip";
+
+interface TimelineItem {
+  ts: string;
+  src: ActiveSource;
+}
 
 /** The command deck for a single operation. Polls detail + compare live. */
 export function MissionDeck({
@@ -45,33 +52,76 @@ export function MissionDeck({
   const [modal, setModal] = useState<{ id: string; owner: string } | null>(null);
   const [focused, setFocused] = useState(false);
   const live = detail.data;
-  const replay = useReplay(live?.events.length ?? 0);
+
+  // Crew = the operation's roster (from live state, so it is stable across the
+  // replay cursor). Used to scope radio chatter and to voice messages.
+  const crew = useMemo(() => new Set((live?.run.agents ?? []).map((a) => a.agent_id)), [live]);
+
+  // The merged performance timeline: authoritative team events woven together
+  // with the radio traffic between this crew, in chronological order. This is
+  // what the replay cursor scrubs and what the Bridge performs.
+  const timeline = useMemo<TimelineItem[]>(() => {
+    if (!live) return [];
+    const items: TimelineItem[] = live.events.map((e) => ({ ts: e.ts, src: { type: "event", event: e } }));
+    for (const m of messages) {
+      if (!m.ts) continue;
+      const involved = crew.has(m.from) || crew.has(m.to) || m.to === "all";
+      if (!involved) continue;
+      if (m.kind === "REVIEW_REQUEST") continue; // already shown as a grant event
+      if (/team round complete/i.test(m.body)) continue; // system noise
+      items.push({ ts: m.ts, src: { type: "message", message: m } });
+    }
+    return items.sort((a, b) => (a.ts < b.ts ? -1 : a.ts > b.ts ? 1 : 0));
+  }, [live, messages, crew]);
+
+  const replay = useReplay(timeline.length);
 
   useEffect(() => {
     onError(!detail.error);
   }, [detail.error, onError]);
 
-  const ascEvents = useMemo(() => (live ? sortedAsc(live.events) : []), [live]);
-
-  // The deck renders `view`: the live detail, or the reconstructed state at the
-  // replay cursor when replay is engaged.
-  const view = useMemo(
-    () => (replay.active && live ? reconstruct(live.events, live.run, replay.cursor) : live),
-    [replay.active, replay.cursor, live],
+  // Marks for the scrubber: one per timeline item (events + radio).
+  const marks = useMemo<Mark[]>(
+    () =>
+      timeline.map((it) => {
+        if (it.src.type === "event") {
+          const v = describeEvent(it.src.event);
+          return { id: it.src.event.id, glyph: v.glyph, tone: v.tone, label: v.label, actor: it.src.event.actor, ts: it.ts, radio: false };
+        }
+        const m = it.src.message;
+        return { id: `msg-${m.idx}`, glyph: "⌁", tone: "plasma", label: `RADIO · ${m.kind}`, actor: m.from, ts: it.ts, radio: true };
+      }),
+    [timeline],
   );
 
-  const frameTs = replay.active && view && view.events.length ? view.events[view.events.length - 1].ts : null;
-  const highlightId = frameTs ? view!.events[view!.events.length - 1].id : null;
+  // Resolve the current frame from the cursor.
+  const cursor = replay.active ? replay.cursor : timeline.length;
+  const eventsPrefix = useMemo(
+    () => timeline.slice(0, cursor).flatMap((it) => (it.src.type === "event" ? [it.src.event] : [])),
+    [timeline, cursor],
+  );
+
+  const view = useMemo<TeamDetail | null>(
+    () => (replay.active && live ? reconstructFromEvents(eventsPrefix, live.run) : live),
+    [replay.active, eventsPrefix, live],
+  );
+
+  const active: ActiveSource | null = replay.active
+    ? cursor > 0
+      ? timeline[cursor - 1].src
+      : null
+    : timeline.length
+      ? timeline[timeline.length - 1].src
+      : null;
+
+  const frameTs = replay.active && cursor > 0 ? timeline[cursor - 1].ts : null;
+  const highlightId =
+    active?.type === "event" ? active.event.id : eventsPrefix.length ? eventsPrefix[eventsPrefix.length - 1].id : null;
 
   const shownMessages = useMemo(() => {
     if (!replay.active || !frameTs) return messages;
     return messages.filter((m) => !m.ts || m.ts <= frameTs);
   }, [replay.active, frameTs, messages]);
-
-  const crew = useMemo(
-    () => new Set((view?.run.agents ?? []).map((a) => a.agent_id)),
-    [view],
-  );
 
   if (detail.loading && !detail.data) {
     return <Spinner label="ESTABLISHING UPLINK…" />;
@@ -102,7 +152,7 @@ export function MissionDeck({
             <div className="mid">{live.run.id} · OPENED BY @{live.run.created_by} · {relTime(live.run.created_at)}</div>
           </div>
           <span className="grow" style={{ flex: 1 }} />
-          {!replay.active && live.events.length > 0 && (
+          {!replay.active && timeline.length > 0 && (
             <button className="btn replay-toggle" onClick={replay.enter} title="Replay this operation">
               ◉ REPLAY
             </button>
@@ -122,11 +172,13 @@ export function MissionDeck({
         </div>
       </div>
 
-      {replay.active && <ReplayBar replay={replay} events={ascEvents} />}
+      {replay.active && <ReplayBar replay={replay} marks={marks} />}
 
       <div className="scroll">
         <Bridge
           detail={view}
+          active={active}
+          crew={crew}
           focused={focused}
           replaying={replay.active}
           onToggleFocus={() => setFocused((f) => !f)}

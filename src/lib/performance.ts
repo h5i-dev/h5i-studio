@@ -4,9 +4,14 @@
 // cursor, or the latest beat when live), it decides every character's posture
 // and who is speaking which line — so the Bridge can perform it.
 
-import type { Derived, TeamDetail, TeamEvent, TeamRun } from "../types";
+import type { Derived, Message, TeamDetail, TeamEvent, TeamRun } from "../types";
 
 export const DIRECTOR = "__director__";
+
+/** A beat's source: an authoritative team event, or a radio transmission. */
+export type ActiveSource =
+  | { type: "event"; event: TeamEvent }
+  | { type: "message"; message: Message };
 
 export type ActorState =
   | "idle"
@@ -109,17 +114,33 @@ function activeLine(
   }
 }
 
+/** A radio transmission, spoken by its sender (crew) or relayed by the Director
+ * (the human commander and any non-crew callers). */
+function messageLine(
+  m: Message,
+  crew: Set<string>,
+): { speaker: string | null; line: string | null; director: boolean; mood: "neutral" | "go" | "nogo" } {
+  const isCrew = crew.has(m.from);
+  const body = clip(m.body || "");
+  return { speaker: isCrew ? m.from : DIRECTOR, line: body || null, director: !isCrew, mood: "neutral" };
+}
+
 /** Compute the full stage beat for the current frame. */
-export function computeBeat(view: TeamDetail, active: TeamEvent | null): Beat {
+export function computeBeat(view: TeamDetail, active: ActiveSource | null, crew: Set<string>): Beat {
   const states = basePostures(view.run, view.derived);
-  const a = activeLine(active, view.run);
+  const isReviewGrant = active?.type === "event" && active.event.kind === "review_granted";
+  const a = !active
+    ? { speaker: null, line: null, director: false, mood: "neutral" as const }
+    : active.type === "event"
+      ? activeLine(active.event, view.run)
+      : messageLine(active.message, crew);
 
   // The active speaker gets a transient acting posture, unless a terminal
   // posture (winner/failed) should keep reading.
   if (a.speaker && a.speaker !== DIRECTOR && states[a.speaker] !== undefined) {
     const persistent = states[a.speaker];
     if (persistent !== "winner" && persistent !== "failed") {
-      states[a.speaker] = active?.kind === "review_granted" ? "thinking" : "speaking";
+      states[a.speaker] = isReviewGrant ? "thinking" : "speaking";
     }
   }
 

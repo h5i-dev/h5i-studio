@@ -1,16 +1,24 @@
-import type { TeamEvent } from "../types";
 import type { Replay } from "../lib/useReplay";
-import { describeEvent } from "../lib/events";
 import { clockTime } from "../lib/format";
 
+export interface Mark {
+  id: string;
+  glyph: string;
+  tone: "go" | "hot" | "live" | "amber" | "plasma" | "idle";
+  label: string;
+  actor: string;
+  ts: string;
+  radio: boolean;
+}
+
 /**
- * Mission-replay transport. Scrubs the timestamped event log; the deck panels
- * re-render to the reconstructed state at the cursor as it plays forward.
+ * Mission-replay transport over the merged performance timeline (team events +
+ * radio chatter). Scrubs the cursor; the Bridge + panels re-render to the
+ * reconstructed state, and the active mark is spoken on stage.
  */
-export function ReplayBar({ replay, events }: { replay: Replay; events: TeamEvent[] }) {
+export function ReplayBar({ replay, marks }: { replay: Replay; marks: Mark[] }) {
   const { cursor, total, playing, speed, atEnd } = replay;
-  const current = cursor > 0 ? events[cursor - 1] : null;
-  const viz = current ? describeEvent(current) : null;
+  const current = cursor > 0 ? marks[cursor - 1] : null;
   const pct = total > 0 ? (cursor / total) * 100 : 0;
 
   return (
@@ -30,7 +38,9 @@ export function ReplayBar({ replay, events }: { replay: Replay; events: TeamEven
         <div className="rb-readout">
           {current ? (
             <>
-              <span className="rb-kind">{viz?.label}</span>
+              <span className={`rb-kind${current.radio ? " radio" : ""}`}>
+                {current.radio ? "⌁ " : ""}{current.label}
+              </span>
               <span className="rb-actor">@{current.actor}</span>
               <span className="rb-time mono">{clockTime(current.ts)}</span>
             </>
@@ -58,18 +68,17 @@ export function ReplayBar({ replay, events }: { replay: Replay; events: TeamEven
           aria-label="replay timeline"
         />
         <div className="rb-ticks">
-          {events.map((ev, i) => {
-            const v = describeEvent(ev);
+          {marks.map((m, i) => {
             const on = i < cursor;
             return (
               <button
-                key={ev.id}
-                className={`rb-tick t-${v.tone}${on ? " on" : ""}${i === cursor - 1 ? " cur" : ""}`}
+                key={m.id}
+                className={`rb-tick t-${m.tone}${on ? " on" : ""}${m.radio ? " radio" : ""}${i === cursor - 1 ? " cur" : ""}`}
                 style={{ left: `${total > 0 ? (i / total) * 100 : 0}%` }}
-                title={`${v.label} · ${clockTime(ev.ts)}`}
+                title={`${m.label} · ${m.actor} · ${clockTime(m.ts)}`}
                 onClick={() => replay.seek(i + 1)}
               >
-                {v.glyph}
+                {m.glyph}
               </button>
             );
           })}

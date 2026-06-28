@@ -60,8 +60,15 @@ function asVerification(p: Record<string, unknown>): TeamVerification {
  */
 export function reconstruct(allEvents: TeamEvent[], liveRun: TeamRun, cursor: number): TeamDetail {
   const asc = sortedAsc(allEvents);
-  const visible = asc.slice(0, Math.max(0, Math.min(cursor, asc.length)));
+  return reconstructFromEvents(asc.slice(0, Math.max(0, Math.min(cursor, asc.length))), liveRun);
+}
 
+/**
+ * Fold an already-chronological list of events into reconstructed deck state.
+ * Used when the replay cursor lives on a *merged* timeline (events + radio
+ * messages): we pass only the events in the visible prefix.
+ */
+export function reconstructFromEvents(visible: TeamEvent[], liveRun: TeamRun): TeamDetail {
   const liveAgents = new Map(liveRun.agents.map((a) => [a.agent_id, a]));
   const liveVers = new Map(liveRun.verifications.map((v) => [v.id, v]));
 

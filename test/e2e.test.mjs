@@ -83,6 +83,18 @@ const newPage = async () => {
   return { page, errors };
 };
 
+/** Click the first timeline tick whose label contains `substr` (real onClick). */
+const seekTick = (page, substr) =>
+  page.$$eval(
+    ".rb-tick",
+    (els, s) => {
+      const t = els.find((e) => e.title.includes(s));
+      if (!t) throw new Error(`no timeline tick matching "${s}"`);
+      t.click();
+    },
+    substr,
+  );
+
 test("the console boots: command bar, DEMO badge, full-viewport starfield", async (t) => {
   if (reason) return t.skip(reason);
   const { page, errors } = await newPage();
@@ -139,14 +151,12 @@ test("Mission Replay reconstructs earlier state, then returns to live", async (t
   await page.$eval(".replay-toggle", (el) => el.click());
   await page.waitForSelector(".replaybar");
 
-  // Seek to event 8 (the "frozen" tick) — a real onClick on the timeline.
-  await page.$$eval(".rb-tick", (els) => els[7].click());
-  await page.waitForTimeout(400);
+  // Seek to the "frozen" beat by label — robust to radio chatter interleaving.
+  await seekTick(page, "ROUND SEALED");
 
-  assert.match((await page.textContent(".rb-count")).trim(), /^8 \/ 17/);
-  // At event 8 the round is sealed but not yet verified → phase SEALED, verdict pending.
+  // The round is sealed but not yet verified → phase SEALED, verdict pending.
   const curPhase = await page.$$eval(".deck-head .phaserail .node.current .lbl", (e) => e.map((x) => x.textContent));
-  assert.ok(curPhase.includes("SEALED"), `expected SEALED at cursor 8, saw ${JSON.stringify(curPhase)}`);
+  assert.ok(curPhase.includes("SEALED"), `expected SEALED at round seal, saw ${JSON.stringify(curPhase)}`);
   assert.ok(!(await page.$(".gng-lamp.go")), "no GO verdict mid-mission");
   assert.ok(await page.$(".gng-lamp.nogo"), "Launch Authority is NO-GO before verification");
   // Flight recorder shows only the revealed events.
@@ -178,21 +188,52 @@ test("the Bridge performs the operation: crew speak, the Director announces the 
   await page.waitForSelector(".replaybar");
   await page.$eval(".rb-btn.play", (el) => el.click()); // pause
 
-  // Event 13 = nova's review: the speaking actor shows a bubble with the text,
-  // and the caption attributes the line to nova.
-  await page.$$eval(".rb-tick", (els) => els[12].click());
-  await page.waitForTimeout(400);
+  // nova's review beat: the speaking actor shows a bubble with the text, and the
+  // caption attributes the line to nova.
+  await seekTick(page, "REVIEW FILED");
+  await page.waitForTimeout(300);
   const speakers = await page.$$eval(".actor.speaking .bubble-name", (e) => e.map((x) => x.textContent));
   assert.deepEqual(speakers, ["nova"], "nova is the speaking actor");
   assert.match(await page.textContent(".actor.speaking .bubble-text"), /single-flight/i);
   assert.match(await page.textContent(".caption .cap-who"), /nova/);
 
-  // Final event = verdict: the Director (go mood) announces, the winner launches.
-  await page.$$eval(".rb-tick", (els) => els[16].click());
-  await page.waitForTimeout(400);
+  // The verdict beat: the Director (go mood) announces, the winner launches.
+  await seekTick(page, "VERDICT");
+  await page.waitForTimeout(300);
   assert.ok(await page.$(".host--go.speaking"), "Director announces in GO mood");
   assert.match(await page.textContent(".host-text"), /cleared for launch/i);
   assert.ok(await page.$(".actor--winner"), "the winning crew member launches");
+
+  assert.deepEqual(errors, []);
+  await page.close();
+});
+
+test("radio chatter (h5i msg) is woven into the performance and spoken on stage", async (t) => {
+  if (reason) return t.skip(reason);
+  const { page, errors } = await newPage();
+  await page.goto(`${base}/#/nebula-auth`, { waitUntil: "domcontentloaded" });
+  await page.waitForSelector(".bridge");
+  await page.waitForTimeout(500);
+
+  await page.$eval(".replay-toggle", (el) => el.click());
+  await page.waitForSelector(".replaybar");
+  await page.$eval(".rb-btn.play", (el) => el.click()); // pause
+
+  // The timeline interleaves radio marks with team-event marks.
+  assert.ok((await page.$$(".rb-tick.radio")).length > 0, "radio marks present on the timeline");
+
+  // A crew ACK is spoken by that crew member, on stage.
+  await seekTick(page, "RADIO · ACK");
+  await page.waitForTimeout(300);
+  const speakers = await page.$$eval(".actor.speaking .bubble-name", (e) => e.map((x) => x.textContent));
+  assert.equal(speakers.length, 1, "exactly one crew member is on comms for the ACK");
+  assert.match(await page.textContent(".caption .cap-line"), /\S/, "the radio line is captioned");
+
+  // The human commander's DISPATCH is relayed by the Mission Director.
+  await seekTick(page, "RADIO · DISPATCH");
+  await page.waitForTimeout(300);
+  assert.ok(await page.$(".host.speaking"), "Director relays the human dispatch");
+  assert.match(await page.textContent(".caption .cap-who"), /MISSION DIRECTOR/);
 
   assert.deepEqual(errors, []);
   await page.close();

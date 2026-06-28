@@ -51,7 +51,13 @@ performed:
 - **⛶ THEATER** expands the stage full-screen; **▣ CONSOLE** brings back the data
   panels below.
 
-Combined with **replay**, the Bridge re-enacts the entire operation beat by beat.
+- **Radio chatter** — the `h5i msg` traffic between the crew (dispatch, acks,
+  discussion) is woven into the same timeline and spoken on stage: a crew member
+  voices its own transmissions; the human commander's radio is relayed by the
+  Mission Director.
+
+Combined with **replay**, the Bridge re-enacts the entire operation beat by beat —
+team events and radio chatter interleaved chronologically on one scrubber.
 
 ## The console (the data, when you want it)
 

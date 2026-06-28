@@ -1,7 +1,6 @@
 import { useMemo } from "react";
-import type { TeamDetail, TeamEvent } from "../../types";
-import { computeBeat, DIRECTOR } from "../../lib/performance";
-import { sortedAsc } from "../../lib/replay";
+import type { TeamDetail } from "../../types";
+import { computeBeat, DIRECTOR, type ActiveSource } from "../../lib/performance";
 import { phaseDef } from "../../lib/phases";
 import { CrewActor } from "./CrewActor";
 import { HostCore } from "./HostCore";
@@ -15,21 +14,20 @@ import { HostCore } from "./HostCore";
  */
 export function Bridge({
   detail,
+  active,
+  crew,
   focused,
   replaying,
   onToggleFocus,
 }: {
   detail: TeamDetail;
+  active: ActiveSource | null;
+  crew: Set<string>;
   focused: boolean;
   replaying: boolean;
   onToggleFocus: () => void;
 }) {
-  const active: TeamEvent | null = useMemo(() => {
-    const asc = sortedAsc(detail.events);
-    return asc.length ? asc[asc.length - 1] : null;
-  }, [detail.events]);
-
-  const beat = useMemo(() => computeBeat(detail, active), [detail, active]);
+  const beat = useMemo(() => computeBeat(detail, active, crew), [detail, active, crew]);
   const agents = detail.run.agents;
 
   // Lay the crew out along a gentle arc across the lower stage.

@@ -1312,6 +1312,17 @@ button.btn:disabled {
   letter-spacing: 0.12em;
   color: var(--ice);
 }
+.rb-kind.radio {
+  color: var(--plasma);
+}
+.rb-tick.radio {
+  font-size: 8px;
+  opacity: 0.3;
+}
+.rb-tick.radio.on {
+  opacity: 0.85;
+  color: var(--plasma);
+}
 .rb-actor {
   font-family: var(--f-mono);
   font-size: 10px;
