@@ -44,7 +44,7 @@
     "serve": "node server/index.mjs",
     "start": "node bin/h5i-studio.mjs",
     "typecheck": "tsc -b --noEmit",
-    "test": "node --test test/parse.test.mjs test/derive.test.mjs test/api.test.mjs",
+    "test": "node --test test/parse.test.mjs test/derive.test.mjs test/demo.test.mjs test/api.test.mjs",
     "test:e2e": "node --test test/e2e.test.mjs",
     "test:all": "node --test test/",
     "prepack": "npm run build"

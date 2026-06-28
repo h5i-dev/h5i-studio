@@ -15,6 +15,10 @@ with a deep-space HUD aesthetic befitting an AI version-control sidecar.
 
 ![deck](docs/deck.png)
 
+> Try it instantly — no `h5i` or repo needed: `npx @h5i/studio --demo`
+
+![replay](docs/replay.png)
+
 ---
 
 ## What it shows
@@ -36,6 +40,25 @@ live and renders every part of the lifecycle:
 
 The console polls continuously (4 s on an open deck, 8 s ambient) with a LIVE /
 IDLE / LOST uplink indicator.
+
+### Mission Replay
+
+Every team carries a timestamped, append-only event log, so any operation can be
+**replayed**. Hit **◉ REPLAY** on a deck and the whole console becomes a
+time-machine: a transport bar scrubs the timeline while the panels reconstruct
+the exact state at the cursor — the phase rail advances, candidates seal in,
+verifier gates flip, comms stream, and the GO / NO-GO lamp lights only once the
+verdict is reached. Reconstruction is pure and client-side (it folds the event
+prefix the same way the server's `derive()` does), so it works on live *and*
+demo data. Play / pause, 1–8× speed, scrub, click any event tick, or jump to live.
+
+### Demo mode
+
+`--demo` serves a bundled, self-contained fleet — three missions including a
+fully-played hero run (3 candidates, peer reviews, discussion, neutral
+verification, a smallest-passing-diff verdict) — so you can see the
+visualization and try replay without `h5i` or a repo. It's also what the
+end-to-end tests run against, so the demo stays correct.
 
 ---
 
@@ -85,6 +108,14 @@ GET /api/context                                shared reasoning workspace
 
 Requirements: **Node ≥ 18**, the **`h5i`** binary on `PATH`.
 
+### Try the demo first
+
+No `h5i`, no repo, no setup — explore a bundled 3-mission fleet (with replay):
+
+```bash
+npx @h5i/studio --demo
+```
+
 ### As a tool (recommended)
 
 No install needed — run it in any h5i repo:
@@ -108,6 +139,7 @@ OPTIONS
   -p, --port <n>       port to listen on        (default: 8787)
       --host <host>    host/interface to bind   (default: 127.0.0.1)
       --bin <path>     path to the h5i binary   (default: h5i on PATH)
+      --demo           serve the bundled demo fleet (no h5i / repo needed)
       --no-open        do not open the browser
 ```
 

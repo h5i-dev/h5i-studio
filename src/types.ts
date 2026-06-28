@@ -209,6 +209,7 @@ export interface ContextView {
 export interface Health {
   ok: boolean;
   service: string;
+  demo?: boolean;
   repo: string;
   version: string;
   time: string;

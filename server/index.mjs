@@ -21,11 +21,12 @@ const DIST = join(ROOT, "dist");
 export function startServer(opts = {}) {
   const port = Number(opts.port ?? process.env.PORT ?? 8787);
   const host = opts.host ?? process.env.HOST ?? "127.0.0.1";
+  const demo = Boolean(opts.demo ?? process.env.H5I_STUDIO_DEMO === "1");
   const hasDist = existsSync(join(DIST, "index.html"));
 
   const app = express();
   app.disable("x-powered-by");
-  app.use("/api", createApiRouter());
+  app.use("/api", createApiRouter({ demo }));
 
   if (hasDist) {
     app.use(express.static(DIST));
@@ -52,7 +53,8 @@ export function startServer(opts = {}) {
         url: `http://${displayHost}:${port}`,
         port,
         host,
-        repo: REPO,
+        demo,
+        repo: demo ? "demo://nebula-fleet" : REPO,
         hasDist,
       });
     });

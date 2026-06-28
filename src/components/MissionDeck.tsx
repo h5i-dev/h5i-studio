@@ -4,7 +4,10 @@ import type { CompareRow, ContextView, Message, RosterAgent, TeamDetail } from "
 import { phaseDef, phaseTone, isStalled } from "../lib/phases";
 import { relTime, shortOid } from "../lib/format";
 import { usePoll } from "../lib/usePoll";
+import { useReplay } from "../lib/useReplay";
+import { reconstruct, sortedAsc } from "../lib/replay";
 import { PhaseRail } from "./PhaseRail";
+import { ReplayBar } from "./ReplayBar";
 import { Chip, Spinner } from "./ui";
 import { DiffViewer } from "./DiffViewer";
 import { SquadronRoster } from "./panels/SquadronRoster";
@@ -39,14 +42,33 @@ export function MissionDeck({
   const compare = usePoll<CompareRow[]>(fetchCompare, intervalMs);
 
   const [modal, setModal] = useState<{ id: string; owner: string } | null>(null);
+  const live = detail.data;
+  const replay = useReplay(live?.events.length ?? 0);
 
   useEffect(() => {
     onError(!detail.error);
   }, [detail.error, onError]);
 
+  const ascEvents = useMemo(() => (live ? sortedAsc(live.events) : []), [live]);
+
+  // The deck renders `view`: the live detail, or the reconstructed state at the
+  // replay cursor when replay is engaged.
+  const view = useMemo(
+    () => (replay.active && live ? reconstruct(live.events, live.run, replay.cursor) : live),
+    [replay.active, replay.cursor, live],
+  );
+
+  const frameTs = replay.active && view && view.events.length ? view.events[view.events.length - 1].ts : null;
+  const highlightId = frameTs ? view!.events[view!.events.length - 1].id : null;
+
+  const shownMessages = useMemo(() => {
+    if (!replay.active || !frameTs) return messages;
+    return messages.filter((m) => !m.ts || m.ts <= frameTs);
+  }, [replay.active, frameTs, messages]);
+
   const crew = useMemo(
-    () => new Set((detail.data?.run.agents ?? []).map((a) => a.agent_id)),
-    [detail.data],
+    () => new Set((view?.run.agents ?? []).map((a) => a.agent_id)),
+    [view],
   );
 
   if (detail.loading && !detail.data) {
@@ -61,12 +83,12 @@ export function MissionDeck({
       </div>
     );
   }
-  if (!detail.data) return null;
+  if (!view || !live) return null;
 
-  const { run, events, derived } = detail.data;
+  const { run, events, derived } = view;
   const pd = phaseDef(run.phase);
   const tone = phaseTone(run.phase);
-  const cmp = compare.data ?? [];
+  const shownCompare = replay.active ? [] : compare.data ?? [];
 
   return (
     <>
@@ -74,10 +96,15 @@ export function MissionDeck({
         <div className="row1">
           <button className="back" onClick={onBack}>◂ FLEET</button>
           <div>
-            <div className="mname">{run.name}</div>
-            <div className="mid">{run.id} · OPENED BY @{run.created_by} · {relTime(run.created_at)}</div>
+            <div className="mname">{live.run.name}</div>
+            <div className="mid">{live.run.id} · OPENED BY @{live.run.created_by} · {relTime(live.run.created_at)}</div>
           </div>
           <span className="grow" style={{ flex: 1 }} />
+          {!replay.active && live.events.length > 0 && (
+            <button className="btn replay-toggle" onClick={replay.enter} title="Replay this operation">
+              ◉ REPLAY
+            </button>
+          )}
           <Chip tone={tone === "go" ? "go" : tone === "hot" ? "hot" : tone === "live" ? "live" : "amber"} dot>
             {isStalled(run.phase) ? "NO-GO" : pd.label}
           </Chip>
@@ -93,6 +120,8 @@ export function MissionDeck({
         </div>
       </div>
 
+      {replay.active && <ReplayBar replay={replay} events={ascEvents} />}
+
       <div className="scroll">
         <div className="deck-grid">
           <div className="deck-col">
@@ -102,13 +131,13 @@ export function MissionDeck({
               reviews={derived.reviews}
               discussions={derived.discussions}
               grants={derived.grants}
-              messages={messages}
+              messages={shownMessages}
               crew={crew}
             />
           </div>
           <div className="deck-col">
-            <SquadronRoster agents={run.agents} compare={cmp} roster={roster} />
-            <MissionLog events={events} />
+            <SquadronRoster agents={run.agents} compare={shownCompare} roster={roster} />
+            <MissionLog events={events} highlightId={highlightId} />
             <ContextStrip ctx={context} />
           </div>
         </div>

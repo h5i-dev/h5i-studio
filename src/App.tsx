@@ -55,6 +55,7 @@ export default function App() {
             <b>H5I</b>
             <span>FLEET COMMAND</span>
           </div>
+          {health.data?.demo && <span className="demo-badge">DEMO</span>}
         </div>
 
         <div className="spacer" />

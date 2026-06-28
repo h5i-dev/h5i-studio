@@ -1,8 +1,8 @@
-// End-to-end browser test. Serves the built SPA + live API and drives a real
-// Chromium via Playwright, asserting the deck renders from live h5i data with
-// no runtime errors. Self-guarding: skips cleanly when the bundle is not built,
-// Playwright is not installed, or no Chromium binary can be located — so it is
-// safe inside `npm test` on any machine while giving true coverage where it can.
+// End-to-end browser test. Serves the built SPA + the bundled DEMO fleet (so it
+// is deterministic and needs no live h5i) and drives a real Chromium via
+// Playwright. Asserts the deck renders, the diff modal opens, and Mission Replay
+// reconstructs earlier state. Self-guarding: skips cleanly when the bundle is
+// not built, Playwright is not installed, or no Chromium binary can be located.
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
 import http from "node:http";
@@ -47,7 +47,7 @@ let browser;
 before(async () => {
   if (reason) return;
   const app = express();
-  app.use("/api", createApiRouter());
+  app.use("/api", createApiRouter({ demo: true })); // bundled fleet → deterministic
   app.use(express.static(DIST));
   app.get(/^(?!\/api\/).*/, (_req, res) => res.sendFile(join(DIST, "index.html")));
   server = http.createServer(app);
@@ -76,59 +76,89 @@ after(async () => {
   server?.close();
 });
 
-test("the console boots and renders the command bar with no runtime errors", async (t) => {
-  if (reason) return t.skip(reason);
-  const page = await browser.newPage({ viewport: { width: 1500, height: 950 } });
-  const errors = [];
-  page.on("pageerror", (e) => errors.push(e.message));
-  await page.goto(base, { waitUntil: "networkidle" });
-  await page.waitForSelector(".topbar");
-
-  const brand = await page.textContent(".brand .wordmark");
-  assert.match(brand, /FLEET COMMAND/);
-  // Starfield canvas must stretch to the viewport (regression guard).
-  const w = await page.$eval("#starfield", (c) => c.clientWidth);
-  assert.ok(w > 800, `starfield should fill viewport, got ${w}px`);
-
-  assert.deepEqual(errors, [], "no uncaught page errors");
-  await page.close();
-});
-
-test("opening a mission renders the deck panels from live data", async (t) => {
-  if (reason) return t.skip(reason);
+const newPage = async () => {
   const page = await browser.newPage({ viewport: { width: 1600, height: 1000 } });
   const errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
-  await page.goto(base, { waitUntil: "networkidle" });
+  return { page, errors };
+};
 
-  const card = await page.$(".mission-card");
-  if (!card) {
-    await page.close();
-    return t.skip("no team runs present to open");
-  }
+test("the console boots: command bar, DEMO badge, full-viewport starfield", async (t) => {
+  if (reason) return t.skip(reason);
+  const { page, errors } = await newPage();
+  await page.goto(base, { waitUntil: "domcontentloaded" });
+  await page.waitForSelector(".topbar");
+  await page.waitForTimeout(800);
 
-  await card.click();
+  assert.match(await page.textContent(".brand .wordmark"), /FLEET COMMAND/);
+  assert.ok(await page.$(".demo-badge"), "DEMO badge present in demo mode");
+  const w = await page.$eval("#starfield", (c) => c.clientWidth);
+  assert.ok(w > 800, `starfield should fill viewport, got ${w}px`);
+  // The bundled fleet has three operations.
+  await page.waitForSelector(".mission-card");
+  assert.equal((await page.$$(".mission-card")).length, 3);
+
+  assert.deepEqual(errors, []);
+  await page.close();
+});
+
+test("opening the hero mission renders every deck panel + diff modal", async (t) => {
+  if (reason) return t.skip(reason);
+  const { page, errors } = await newPage();
+  await page.goto(`${base}/#/nebula-auth`, { waitUntil: "domcontentloaded" });
   await page.waitForSelector(".deck-grid");
+  await page.waitForTimeout(600);
 
-  // Core deck panels must be present.
   const heads = await page.$$eval(".panel-head h3", (els) => els.map((e) => e.textContent));
-  for (const want of ["Squadron", "Candidates", "Launch Authority", "Flight Recorder"]) {
+  for (const want of ["Candidates", "Launch Authority", "Squadron", "Flight Recorder", "Comms Channel"]) {
     assert.ok(heads.includes(want), `expected panel "${want}", saw ${JSON.stringify(heads)}`);
   }
-  // The phase rail renders its ladder nodes.
-  const nodes = await page.$$(".phaserail .node");
-  assert.ok(nodes.length >= 5, "phase rail has nodes");
+  // Live state: atlas is the selected winner → GO.
+  assert.ok(await page.$(".gng-lamp.go"), "live verdict shows GO");
+  assert.ok((await page.$$(".phaserail .node")).length >= 5);
 
-  // If a sealed candidate exists, its flight plan opens a diff modal.
-  const fp = await page.$(".cand .btn.ghost");
-  if (fp) {
-    await fp.click();
-    await page.waitForSelector(".modal .diff, .modal .summary-box");
-    const title = await page.textContent(".modal .panel-head h3");
-    assert.match(title, /FLIGHT PLAN/);
-    await page.keyboard.press("Escape");
-  }
+  // Flight plan opens a real diff.
+  await page.$eval(".cand .btn.ghost", (el) => el.click());
+  await page.waitForSelector(".modal .diff");
+  assert.match(await page.textContent(".modal .panel-head h3"), /FLIGHT PLAN/);
+  assert.match(await page.textContent(".modal .diff"), /diff --git/);
+  await page.keyboard.press("Escape");
 
-  assert.deepEqual(errors, [], "no uncaught page errors on the deck");
+  assert.deepEqual(errors, []);
+  await page.close();
+});
+
+test("Mission Replay reconstructs earlier state, then returns to live", async (t) => {
+  if (reason) return t.skip(reason);
+  const { page, errors } = await newPage();
+  await page.goto(`${base}/#/nebula-auth`, { waitUntil: "domcontentloaded" });
+  await page.waitForSelector(".deck-grid");
+  await page.waitForTimeout(600);
+
+  // Engage replay (el.click bypasses Playwright actionability vs. the polling re-render).
+  await page.$eval(".replay-toggle", (el) => el.click());
+  await page.waitForSelector(".replaybar");
+
+  // Seek to event 8 (the "frozen" tick) — a real onClick on the timeline.
+  await page.$$eval(".rb-tick", (els) => els[7].click());
+  await page.waitForTimeout(400);
+
+  assert.match((await page.textContent(".rb-count")).trim(), /^8 \/ 17/);
+  // At event 8 the round is sealed but not yet verified → phase SEALED, verdict pending.
+  const curPhase = await page.$$eval(".deck-head .phaserail .node.current .lbl", (e) => e.map((x) => x.textContent));
+  assert.ok(curPhase.includes("SEALED"), `expected SEALED at cursor 8, saw ${JSON.stringify(curPhase)}`);
+  assert.ok(!(await page.$(".gng-lamp.go")), "no GO verdict mid-mission");
+  assert.ok(await page.$(".gng-lamp.nogo"), "Launch Authority is NO-GO before verification");
+  // Flight recorder shows only the revealed events.
+  const logRows = (await page.$$(".log .log-row")).length;
+  assert.equal(logRows, 8, "recorder shows exactly the 8 revealed events");
+
+  // Exit replay → back to the live GO state.
+  await page.$eval(".rb-exit", (el) => el.click());
+  await page.waitForTimeout(300);
+  assert.ok(!(await page.$(".replaybar")), "replay bar dismissed");
+  assert.ok(await page.$(".gng-lamp.go"), "live GO restored after exit");
+
+  assert.deepEqual(errors, []);
   await page.close();
 });

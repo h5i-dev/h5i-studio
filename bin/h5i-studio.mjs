@@ -15,7 +15,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkg = JSON.parse(readFileSync(join(__dirname, "..", "package.json"), "utf8"));
 
 function parseArgs(argv) {
-  const opts = { port: undefined, host: undefined, repo: undefined, bin: undefined, open: true };
+  const opts = { port: undefined, host: undefined, repo: undefined, bin: undefined, open: true, demo: false };
   const want = (i, name) => {
     const v = argv[i + 1];
     if (v === undefined) fail(`option ${name} needs a value`);
@@ -50,6 +50,9 @@ function parseArgs(argv) {
       case "--no-open":
         opts.open = false;
         break;
+      case "--demo":
+        opts.demo = true;
+        break;
       default:
         if (a.startsWith("-")) fail(`unknown option: ${a}`);
     }
@@ -75,16 +78,19 @@ function help() {
     -p, --port <n>       port to listen on             (default: 8787)
         --host <host>    host/interface to bind        (default: 127.0.0.1)
         --bin <path>     path to the h5i binary        (default: h5i on PATH)
+        --demo           serve a bundled demo fleet (no h5i / repo needed)
         --no-open        do not open the browser
     -h, --help           show this help
     -v, --version        show version
 
   EXAMPLES
     h5i-studio                       view the repo in the current directory
+    h5i-studio --demo                explore a bundled demo fleet + replay
     h5i-studio -r ../my-project      view another repo
     h5i-studio -p 9000 --no-open     custom port, no auto-open
 
-  Requires the 'h5i' binary on PATH (override with --bin or H5I_BIN).
+  Requires the 'h5i' binary on PATH (override with --bin or H5I_BIN),
+  except in --demo mode, which needs nothing.
 `);
 }
 
@@ -118,14 +124,15 @@ if (opts.repo) process.env.H5I_REPO = resolve(opts.repo);
 if (opts.bin) process.env.H5I_BIN = opts.bin;
 if (opts.port) process.env.PORT = String(opts.port);
 if (opts.host) process.env.HOST = opts.host;
+if (opts.demo) process.env.H5I_STUDIO_DEMO = "1";
 
 const { startServer } = await import("../server/index.mjs");
 const { version } = await import("../server/h5i.mjs");
 
 try {
-  const info = await startServer({ port: opts.port, host: opts.host });
-  const ver = await version();
-  console.log(`\n  ▟▙ H5I FLEET COMMAND  ·  ${pkg.version}`);
+  const info = await startServer({ port: opts.port, host: opts.host, demo: opts.demo });
+  const ver = opts.demo ? "demo (bundled)" : await version();
+  console.log(`\n  ▟▙ H5I FLEET COMMAND  ·  ${pkg.version}${opts.demo ? "  · DEMO" : ""}`);
   console.log(`  ──────────────────────────────────────────`);
   console.log(`  console : ${info.url}`);
   console.log(`  repo    : ${info.repo}`);
@@ -134,8 +141,9 @@ try {
   console.log(`  ──────────────────────────────────────────`);
   console.log(`  ⌁ uplink live — Ctrl+C to disengage\n`);
 
-  if (ver === "unknown") {
-    console.log(`  ⚠ could not run 'h5i' — is it installed and on PATH? (override with --bin)\n`);
+  if (!opts.demo && ver === "unknown") {
+    console.log(`  ⚠ could not run 'h5i' — is it installed and on PATH? (override with --bin)`);
+    console.log(`    try 'h5i-studio --demo' to explore a bundled fleet instead.\n`);
   }
   if (opts.open && info.hasDist) openBrowser(info.url);
 } catch (err) {

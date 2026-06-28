@@ -13,7 +13,7 @@ const TONE_COLOR: Record<string, string> = {
 };
 
 /** The flight recorder: the append-only event log, newest first. */
-export function MissionLog({ events }: { events: TeamEvent[] }) {
+export function MissionLog({ events, highlightId }: { events: TeamEvent[]; highlightId?: string | null }) {
   const rows = [...events].sort((a, b) => (a.ts < b.ts ? 1 : -1));
   return (
     <Panel title="Flight Recorder" tag={`${events.length} EVENTS`}>
@@ -23,7 +23,7 @@ export function MissionLog({ events }: { events: TeamEvent[] }) {
           const v = describeEvent(ev);
           const color = TONE_COLOR[v.tone] || "var(--phosphor)";
           return (
-            <div className="log-row" key={ev.id}>
+            <div className={`log-row${ev.id === highlightId ? " cur" : ""}`} key={ev.id}>
               <span className="node" style={{ color, borderColor: color }}>
                 {v.glyph}
               </span>
