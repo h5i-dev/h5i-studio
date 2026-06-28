@@ -39,3 +39,4 @@
 [13:40:13] OBSERVE: read watch.sh
 [13:40:15] OBSERVE: read watch.sh
 [13:40:15] OBSERVE: read whoami.sh
+[13:40:16] OBSERVE: read join.sh
