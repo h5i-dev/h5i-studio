@@ -418,3 +418,4 @@ _[Checkpoint: 6a415ffd — edited src/lib/replay.ts; edited src/components/bridg
 [18:24:32] ACT: edited src/components/bridge/CrewActor.tsx
 [18:24:45] ACT: edited src/components/bridge/Bridge.tsx
 [18:24:54] ACT: edited src/components/bridge/Bridge.tsx
+[18:25:02] OBSERVE: read src/components/MissionDeck.tsx
