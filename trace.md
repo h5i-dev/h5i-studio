@@ -32,3 +32,4 @@
 [13:40:04] OBSERVE: read README.md
 [13:40:04] OBSERVE: read check-inbox.sh
 [13:40:04] OBSERVE: read biome.json
+[13:40:06] OBSERVE: read cli_routing.rs
