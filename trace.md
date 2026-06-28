@@ -19,3 +19,4 @@
 [13:39:46] OBSERVE: read Cargo.toml
 [13:39:47] OBSERVE: read app.css
 [13:39:49] OBSERVE: read index.html
+[13:39:50] OBSERVE: read tsconfig.app.json
