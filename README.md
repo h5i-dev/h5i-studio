@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="./docs/logo.png" alt="H5I Fleet Command" height="112">
+  <a href="https://h5i.dev/" target="_blank">
+    <img src="./docs/logo_h5i.png" alt="h5i logo" height="126">
+  </a>
 </p>
 
 <p align="center">
