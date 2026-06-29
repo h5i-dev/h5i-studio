@@ -1651,10 +1651,10 @@ button.btn:disabled {
   0%, 100% { opacity: 0.35; }
   50% { opacity: 0.8; }
 }
-.room-hull .st1 { left: 3%; top: 34%; }
-.room-hull .st2 { right: 3%; top: 34%; }
-.room-hull .st3 { left: 9%; top: 60%; }
-.room-hull .st4 { right: 9%; top: 60%; }
+.room-hull .st1 { left: 3%; top: 36%; }
+.room-hull .st2 { right: 3%; top: 36%; }
+.room-hull .st3 { left: 9%; top: 64%; }
+.room-hull .st4 { right: 9%; top: 64%; }
 /* the deck floor: a glowing ring under the central computer */
 .room-floor {
   position: absolute;
@@ -2254,6 +2254,37 @@ button.btn:disabled {
     radial-gradient(circle at 32% 32%, rgba(255, 255, 255, 0.38), transparent 12%),
     linear-gradient(180deg, #233860, #090c1d);
   box-shadow: inset 0 0 0 2px rgba(78, 231, 255, 0.14), 0 4px 0 rgba(16, 16, 26, 0.42);
+}
+.room-hull .mars-window {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.5) 0 2px, transparent 3px),
+    radial-gradient(circle at 72% 18%, rgba(255, 230, 109, 0.45) 0 1px, transparent 2px),
+    radial-gradient(circle at 54% 66%, rgba(255, 255, 255, 0.4) 0 1px, transparent 2px),
+    linear-gradient(180deg, #10162f 0%, #050817 100%);
+}
+.room-hull .mars-window::before {
+  content: "";
+  position: absolute;
+  right: 12%;
+  bottom: 18%;
+  width: 34%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 32%, rgba(255, 224, 170, 0.72) 0 8%, transparent 9%),
+    radial-gradient(circle at 62% 58%, rgba(117, 49, 42, 0.62) 0 12%, transparent 13%),
+    radial-gradient(circle at 38% 68%, rgba(132, 58, 45, 0.54) 0 10%, transparent 11%),
+    linear-gradient(135deg, #ffbe75, #d46545 56%, #7e2f36);
+  border: 2px solid rgba(255, 217, 158, 0.72);
+  box-shadow: 0 0 14px rgba(255, 143, 95, 0.38);
+}
+.room-hull .mars-window::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent 38%);
+  pointer-events: none;
 }
 .room-hull .station {
   border: 3px solid var(--ink-line);

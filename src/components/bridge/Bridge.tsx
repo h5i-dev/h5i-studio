@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import type { TeamDetail } from "../../types";
 import { computeBeat, DIRECTOR, type ActiveSource } from "../../lib/performance";
 import { phaseDef } from "../../lib/phases";
-import { hash01 } from "../../lib/format";
 import { CrewActor } from "./CrewActor";
 import { HostCore } from "./HostCore";
 
@@ -50,10 +49,8 @@ export function Bridge({
         ang = deg(124 + t * 112); // left arc, around 180°
         li++;
       }
-      ang += (hash01(a.agent_id + "a") - 0.5) * 0.2;
-      const jr = 0.9 + hash01(a.agent_id + "r") * 0.2;
-      const x = 50 + Math.cos(ang) * 34 * jr;
-      const y = 50 + Math.sin(ang) * 23 * jr;
+      const x = 50 + Math.cos(ang) * 34;
+      const y = 54 + Math.sin(ang) * 23;
       const depth = Math.min(1, Math.max(0, (y - 26) / 50)); // 0 (back) .. 1 (front)
       const scale = 0.72 + depth * 0.58;
       return { agent: a, x, y, scale, z: Math.round(y * 12) };
@@ -69,7 +66,7 @@ export function Bridge({
       <div className="room-space" aria-hidden />
       <div className="room-hull" aria-hidden>
         <span className="hatch-door" />
-        <span className="viewport vp1" />
+        <span className="viewport vp1 mars-window" />
         <span className="viewport vp2" />
         <span className="station st1" />
         <span className="station st2" />
