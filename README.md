@@ -4,7 +4,6 @@
 
 <p align="center">
   <a href="#6-license"><img alt="Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue"></a>
-  <img alt="node >=18" src="https://img.shields.io/badge/node-%E2%89%A518-44cc11">
   <a href="https://github.com/h5i-dev/h5i"><img alt="powered by h5i" src="https://img.shields.io/badge/powered%20by-h5i-6f42c1"></a>
   <img alt="read-only, no mock data" src="https://img.shields.io/badge/real%20h5i%20data-read--only-2ea44f">
 </p>
