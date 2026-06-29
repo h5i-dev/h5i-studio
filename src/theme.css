@@ -2171,9 +2171,36 @@ button.btn:disabled {
   border: 4px solid var(--ink-line);
   border-radius: 44% 44% 28% 28% / 34% 34% 20% 20%;
   background:
-    radial-gradient(80% 120% at 50% 0%, rgba(255, 241, 197, 0.2), transparent 54%),
+    linear-gradient(180deg, rgba(16, 16, 26, 0.38) 0 14%, transparent 14%),
+    radial-gradient(54% 40% at 50% 28%, rgba(255, 241, 197, 0.16), transparent 72%),
+    linear-gradient(180deg, transparent 0 45%, rgba(16, 16, 26, 0.22) 45% 48%, transparent 48%),
     linear-gradient(180deg, #37406c 0%, #23294f 64%, #1b1d3f 100%);
-  box-shadow: inset 0 -18px 0 rgba(16, 16, 26, 0.24), inset 0 0 0 2px rgba(255, 241, 197, 0.08);
+  box-shadow:
+    inset 0 26px 0 rgba(16, 16, 26, 0.26),
+    inset 0 -28px 0 rgba(16, 16, 26, 0.26),
+    inset 0 0 0 2px rgba(255, 241, 197, 0.08);
+}
+.room-hull::before,
+.room-hull::after {
+  content: "";
+  position: absolute;
+  left: 13%;
+  right: 13%;
+  pointer-events: none;
+}
+.room-hull::before {
+  top: 10%;
+  height: 14%;
+  border-radius: 50% 50% 10% 10% / 80% 80% 10% 10%;
+  border-top: 4px solid rgba(16, 16, 26, 0.54);
+  background: linear-gradient(180deg, rgba(255, 241, 197, 0.12), transparent);
+}
+.room-hull::after {
+  top: 46%;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(16, 16, 26, 0.58);
+  box-shadow: 0 3px 0 rgba(255, 241, 197, 0.08);
 }
 .hatch-door {
   position: absolute;
@@ -2243,14 +2270,16 @@ button.btn:disabled {
   width: 70%;
   height: 42%;
   background:
-    radial-gradient(ellipse at 50% 50%, rgba(255, 230, 109, 0.22), transparent 52%),
-    radial-gradient(ellipse at 50% 64%, rgba(78, 231, 255, 0.12), transparent 68%);
-  box-shadow: none;
+    linear-gradient(180deg, rgba(16, 16, 26, 0.38) 0 7%, transparent 8%),
+    radial-gradient(ellipse at 50% 46%, rgba(255, 230, 109, 0.24), transparent 52%),
+    radial-gradient(ellipse at 50% 66%, rgba(78, 231, 255, 0.14), transparent 68%);
+  box-shadow: 0 -10px 0 -6px rgba(16, 16, 26, 0.66);
 }
 .room-floor::before {
-  inset: 14%;
+  inset: 12%;
   border: 4px solid rgba(16, 16, 26, 0.64);
   border-top-color: rgba(255, 230, 109, 0.8);
+  border-bottom-color: rgba(16, 16, 26, 0.28);
 }
 .room-floor::after {
   inset: 36%;
