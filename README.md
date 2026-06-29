@@ -17,7 +17,7 @@
 > ***Your agent team isn't a table of rows. It's a crew with a story.***
 
 <p align="center">
-  <img src="./docs/hero.gif" alt="A spaceship meeting room: crew members scattered around a central computer report in, seal candidates, review each other in speech bubbles, and the winner launches on a beam while the Mission Director announces the verdict." width="96%">
+  <img src="./docs/h5i-studio-demo.gif" alt="A spaceship meeting room: crew members scattered around a central computer report in, seal candidates, review each other in speech bubbles, and the winner launches on a beam while the Mission Director announces the verdict." width="96%">
 </p>
 
 <table align="center">
