@@ -12,7 +12,7 @@
 
 <h1 align="center">Don't read your agent team. Watch it.</h1>
 
-[h5i](https://github.com/h5i-dev/h5i) runs a **team of coding agents** on the same task, sealed in their own sandboxes, then peer-reviews and verifies them and merges the one that passes. **H5I Fleet Command** is the viewer that turns one of those runs into a live **starship bridge**: each agent is a crew member who reports in, seals a candidate, speaks its *actual* review, and — if the neutral verifier clears it — **launches**. The Mission Director (the central computer) narrates the **GO / NO-GO** verdict. Hit **replay** to watch the whole operation again, or **export it as a GIF**.
+[`h5i`](https://github.com/h5i-dev/h5i) runs a **team of coding agents** such as Claude and Codex on the same task, sealed in their own sandboxes, then peer-reviews and verifies them and merges the one that passes. `h5i-studio` is the viewer that turns one of those runs into a live **starship bridge**: each agent is a crew member who reports in, seals a candidate, and speaks its *actual* reviews.
 
 > ***Your agent team isn't a table of rows. It's a crew with a story.***
 
