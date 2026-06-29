@@ -166,8 +166,6 @@ export function MissionDeck({
         </div>
       </div>
 
-      {replay.active && <ReplayBar replay={replay} marks={marks} />}
-
       <div className="scroll">
         <Bridge
           detail={view}
@@ -196,6 +194,8 @@ export function MissionDeck({
         </div>
         )}
       </div>
+
+      {replay.active && <ReplayBar replay={replay} marks={marks} />}
 
       {profileAgent && (
         <AgentProfile
