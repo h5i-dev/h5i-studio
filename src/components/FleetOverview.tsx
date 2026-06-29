@@ -35,7 +35,7 @@ export function FleetOverview({
   return (
     <div className="view-pad">
       <div className="section-title">
-        <h2>FLEET OPERATIONS</h2>
+        <h2>TEAM OPERATIONS</h2>
         <span className="sub">{pluralize(teams.length, "MISSION")} · LIVE</span>
       </div>
       <div className="fleet-grid">
@@ -70,7 +70,7 @@ function MissionCard({ run, onOpen }: { run: TeamRun; onOpen: () => void }) {
         <div className="mc-stats">
           <div className="mc-stat">
             <div className="n">{run.agents.length}</div>
-            <div className="l">Squadron</div>
+            <div className="l">Crew</div>
           </div>
           <div className="mc-stat">
             <div className="n">{submitted}</div>

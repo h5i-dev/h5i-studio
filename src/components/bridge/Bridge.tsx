@@ -7,10 +7,8 @@ import { CrewActor } from "./CrewActor";
 import { HostCore } from "./HostCore";
 
 /**
- * The Bridge — a spaceship meeting room where the operation is *performed*. The
- * crew are scattered around a CENTRAL COMPUTER (the Mission Director); each
- * agent's posture follows the scene beat (replay cursor, or the latest event
- * when live), and whoever is active speaks. This is the centrepiece.
+ * The Bridge: a comic spaceship control room where equal agents are performed
+ * as crew avatars. The neutral Ship Core handles operation-wide beats.
  */
 export function Bridge({
   detail,
@@ -63,9 +61,7 @@ export function Bridge({
   }, [agents]);
 
   const pd = phaseDef(detail.run.phase);
-  const caption = beat.line
-    ? { who: beat.speaker === DIRECTOR ? "MISSION DIRECTOR" : beat.speaker || "", line: beat.line }
-    : null;
+  const caption = beat.line ? { who: beat.speaker === DIRECTOR ? "SHIP CORE" : beat.speaker || "", line: beat.line } : null;
 
   return (
     <section className={`bridge room${focused ? " focused" : ""}`}>

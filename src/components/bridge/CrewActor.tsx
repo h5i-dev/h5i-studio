@@ -4,7 +4,7 @@ import { agentHue, callsign, hash01 } from "../../lib/format";
 const STATE_LABEL: Record<ActorState, string> = {
   idle: "STANDBY",
   speaking: "ON COMMS",
-  thinking: "REVIEWING",
+  thinking: "THINKING",
   sealed: "SEALED",
   cleared: "CLEARED",
   failed: "FAILED",
@@ -12,11 +12,9 @@ const STATE_LABEL: Record<ActorState, string> = {
 };
 
 /**
- * A crew member — an anthropomorphised agent. A helmeted pilot drawn in the
- * agent's livery (no assets), whose posture is driven by the scene beat: bobbing
- * on standby, leaning forward on comms (with a speech bubble carrying the actual
- * review/discussion text), heads-down reviewing, shaking when the verifier fails,
- * rising on a launch beam when chosen.
+ * A crew member: every agent gets the same little space-suit avatar treatment,
+ * varied only by deterministic livery color. The posture is driven by the scene
+ * beat: standby bob, comms lean, thinking dots, failure shake, and launch lift.
  */
 export function CrewActor({
   name,
@@ -104,33 +102,30 @@ function Pilot({ hue }: { hue: number }) {
         </radialGradient>
       </defs>
 
-      {/* drop shadow on the deck */}
-      <ellipse className="shadow" cx="60" cy="144" rx="30" ry="6" fill="rgba(0,0,0,0.5)" />
+      {/* inked deck shadow */}
+      <ellipse className="shadow" cx="60" cy="144" rx="32" ry="7" fill="rgba(13,11,22,0.5)" />
 
-      {/* torso / flight suit */}
+      {/* chunky suit body */}
       <path
-        d="M30 150 Q28 96 42 86 L78 86 Q92 96 90 150 Z"
+        d="M28 150 Q27 103 38 88 Q48 80 60 82 Q72 80 82 88 Q93 103 92 150 Z"
         fill={`url(#${gid}-suit)`}
-        stroke={`hsl(${hue} 80% 55%)`}
-        strokeWidth="1.5"
+        stroke="#10101a"
+        strokeWidth="4"
+        strokeLinejoin="round"
       />
-      {/* shoulder lights */}
-      <circle cx="40" cy="96" r="3" fill={`hsl(${hue} 95% 70%)`} />
-      <circle cx="80" cy="96" r="3" fill={`hsl(${hue} 95% 70%)`} />
-      {/* chest core */}
-      <circle className="core" cx="60" cy="112" r="6" fill={`hsl(${hue} 95% 65%)`} />
-      <circle cx="60" cy="112" r="2.5" fill="#fff" />
+      <path d="M36 105 Q47 96 60 98 Q73 96 84 105" fill="none" stroke={`hsl(${hue} 80% 68%)`} strokeWidth="4" strokeLinecap="round" opacity="0.9" />
+      <rect x="46" y="112" width="28" height="14" rx="7" fill="#f8f0d0" stroke="#10101a" strokeWidth="3" />
+      <circle className="core" cx="60" cy="119" r="3.4" fill={`hsl(${hue} 95% 58%)`} />
 
       {/* helmet */}
       <g className="head">
-        <ellipse cx="60" cy="54" rx="34" ry="36" fill={`hsl(${hue} 30% 20%)`} stroke={`hsl(${hue} 80% 58%)`} strokeWidth="2" />
-        {/* visor */}
-        <path d="M40 44 Q60 30 80 44 Q82 64 60 70 Q38 64 40 44 Z" fill={`url(#${gid}-visor)`} />
-        {/* visor glint */}
-        <ellipse className="glint" cx="52" cy="46" rx="6" ry="3" fill="#fff" opacity="0.85" />
-        {/* antenna */}
-        <line x1="84" y1="30" x2="92" y2="16" stroke={`hsl(${hue} 80% 60%)`} strokeWidth="2" />
-        <circle className="ant" cx="92" cy="14" r="3" fill={`hsl(${hue} 95% 70%)`} />
+        <ellipse cx="60" cy="55" rx="35" ry="37" fill={`hsl(${hue} 58% 45%)`} stroke="#10101a" strokeWidth="4" />
+        <path d="M38 49 Q47 32 68 34 Q84 37 85 52 Q84 67 64 72 Q45 72 39 61 Q36 55 38 49 Z" fill={`url(#${gid}-visor)`} stroke="#10101a" strokeWidth="4" strokeLinejoin="round" />
+        <path d="M48 43 Q58 36 74 40" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" opacity="0.9" />
+        <ellipse className="glint" cx="51" cy="51" rx="5" ry="2.8" fill="#fff" opacity="0.85" />
+        <line x1="84" y1="31" x2="93" y2="17" stroke="#10101a" strokeWidth="5" strokeLinecap="round" />
+        <line x1="84" y1="31" x2="93" y2="17" stroke={`hsl(${hue} 92% 68%)`} strokeWidth="2.5" strokeLinecap="round" />
+        <circle className="ant" cx="93" cy="15" r="4.5" fill="#ffe66d" stroke="#10101a" strokeWidth="3" />
       </g>
     </svg>
   );

@@ -52,7 +52,7 @@ export default function App() {
           <Sigil />
           <div className="wordmark">
             <b>H5I</b>
-            <span>FLEET COMMAND</span>
+            <span>TEAM DECK</span>
           </div>
           {health.data?.demo && <span className="demo-badge">DEMO</span>}
         </div>
@@ -124,14 +124,15 @@ function Sigil() {
     <svg className="sigil" viewBox="0 0 100 100" aria-hidden>
       <defs>
         <linearGradient id="sig" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#4ff7ff" />
-          <stop offset="100%" stopColor="#c46bff" />
+          <stop offset="0%" stopColor="#ffe66d" />
+          <stop offset="55%" stopColor="#4ee7ff" />
+          <stop offset="100%" stopColor="#ff6bb5" />
         </linearGradient>
       </defs>
-      <circle cx="50" cy="50" r="42" fill="none" stroke="url(#sig)" strokeWidth="2" opacity="0.5" />
-      <circle cx="50" cy="50" r="30" fill="none" stroke="url(#sig)" strokeWidth="1" opacity="0.35" />
-      <path d="M50 14 L78 78 L50 64 L22 78 Z" fill="url(#sig)" stroke="#9fe8ff" strokeWidth="1.5" />
-      <circle cx="50" cy="50" r="4" fill="#fff" />
+      <circle cx="50" cy="50" r="43" fill="#171836" stroke="#10101a" strokeWidth="6" />
+      <circle cx="50" cy="50" r="35" fill="none" stroke="url(#sig)" strokeWidth="4" opacity="0.9" />
+      <path d="M50 12 L78 78 L50 65 L22 78 Z" fill="url(#sig)" stroke="#10101a" strokeWidth="5" strokeLinejoin="round" />
+      <circle cx="50" cy="50" r="6" fill="#fff7d7" stroke="#10101a" strokeWidth="3" />
     </svg>
   );
 }

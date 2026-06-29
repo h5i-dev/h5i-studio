@@ -1,8 +1,6 @@
 /**
- * The Mission Director — the operation's host/narrator, drawn as the room's
- * CENTRAL COMPUTER: a holographic AI core mounted on a server pedestal in the
- * middle of the meeting room. It opens the operation, calls the round sealed,
- * and announces the GO / NO-GO verdict (glowing green / red).
+ * The Ship Core: a neutral room computer for operation-wide beats. It is not a
+ * special agent persona; it just gives the crew deck a shared focal point.
  */
 export function HostCore({
   speaking,
@@ -17,7 +15,7 @@ export function HostCore({
     <div className={`host host--${mood}${speaking ? " speaking" : ""}`}>
       {speaking && line && (
         <div className="host-bubble">
-          <span className="host-name">◢ MISSION DIRECTOR</span>
+          <span className="host-name">SHIP CORE</span>
           <span className="host-text">{line}</span>
         </div>
       )}
@@ -70,7 +68,7 @@ export function HostCore({
         </g>
       </svg>
 
-      <div className="host-tag">CENTRAL COMPUTER</div>
+      <div className="host-tag">SHIP CORE</div>
     </div>
   );
 }
