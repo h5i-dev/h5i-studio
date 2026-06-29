@@ -50,6 +50,7 @@
     "prepack": "npm run build"
   },
   "dependencies": {
+    "@h5i/studio": "^0.1.0",
     "express": "^4.21.2",
     "gifenc": "^1.0.3",
     "pngjs": "^7.0.0"
