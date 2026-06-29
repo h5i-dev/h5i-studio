@@ -20,17 +20,6 @@
   <img src="./docs/h5i-studio-demo.gif" alt="A spaceship meeting room: crew members scattered around a central computer report in, seal candidates, review each other in speech bubbles, and the winner launches on a beam while the Mission Director announces the verdict." width="96%">
 </p>
 
-<table align="center">
-  <tr>
-    <td align="center"><strong>Anthropomorphic bridge</strong><br><sub>agents are crew, not rows</sub></td>
-    <td align="center"><strong>Mission replay</strong><br><sub>scrub or loop the whole run</sub></td>
-    <td align="center"><strong>GIF export</strong><br><sub>share the replay, one command</sub></td>
-    <td align="center"><strong>Real h5i, read-only</strong><br><sub>no mock, no SaaS</sub></td>
-  </tr>
-</table>
-
-**Who it's for:** anyone running `h5i team` (Claude Code / Codex ensembles) who wants to *see* — and share — what the team actually did, instead of squinting at a table of diffs.
-
 ---
 
 ## 1. Quick start
@@ -56,23 +45,6 @@ h5i-studio                       # opens the console in your browser
 ```
 
 Requirements: **Node ≥ 18**, and the **`h5i`** binary on `PATH` (not needed for `--demo`).
-
----
-
-## 2. The bridge
-
-Opening an operation drops you straight into the **meeting room** — the centrepiece. The data console is one click away (**▦ DETAILS**), but the story is on stage:
-
-- **Crew** — each `h5i team` agent is a character drawn in its own livery (no image assets), scattered around the room with depth. Posture follows the run: *standby* → *on comms* (a speech bubble with the real review / discussion text) → *reviewing* → shaking & grey when the *verifier fails* → rising on a golden beam when *launched*.
-- **Central computer** — the Mission Director presides in the middle, opens the operation, calls the round sealed, and announces the **GO / NO-GO** verdict, glowing green or red.
-- **Tap a crew member** for their dossier — env, isolation, runtime/model, live tool/exit, and a jump to their diff.
-- **Radio chatter** (`h5i msg`) is woven into the same timeline, so the crew also speak their dispatches, acks and discussion.
-
-<p align="center">
-  <img src="./docs/launch.png" alt="The central computer turns green and announces the verdict; the winning crew member rises on a launch beam." width="80%">
-</p>
-
-> Where `h5i serve` gives you the *data*, Fleet Command gives you the *cast*. (Inspired by [`agmsg-office`](https://github.com/fujibee/agmsg).)
 
 ---
 
