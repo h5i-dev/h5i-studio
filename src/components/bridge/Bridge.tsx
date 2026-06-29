@@ -67,7 +67,8 @@ export function Bridge({
       <div className="room-hull" aria-hidden>
         <span className="hatch-door" />
         <span className="viewport vp1 mars-window" />
-        <span className="viewport vp2" />
+        <span className="ceiling-pipework pipework-a" />
+        <span className="ceiling-pipework pipework-b" />
         <span className="station st1" />
         <span className="station st2" />
         <span className="station st3" />

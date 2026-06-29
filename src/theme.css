@@ -2185,7 +2185,7 @@ button.btn:disabled {
   content: "";
   position: absolute;
   left: 13%;
-  right: 13%;
+  right: 10%;
   pointer-events: none;
 }
 .room-hull::before {
@@ -2266,7 +2266,7 @@ button.btn:disabled {
 .room-hull .mars-window::before {
   content: "";
   position: absolute;
-  right: 12%;
+  right: 15%;
   bottom: 18%;
   width: 34%;
   aspect-ratio: 1;
@@ -2285,6 +2285,73 @@ button.btn:disabled {
   inset: 0;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent 38%);
   pointer-events: none;
+}
+.ceiling-pipework {
+  position: absolute;
+  right: 14%;
+  top: 7%;
+  width: 15%;
+  height: 10%;
+  border-top: 6px solid #202746;
+  border-right: 6px solid #202746;
+  border-bottom: 6px solid #202746;
+  border-left: 0;
+  border-radius: 0 7px 7px 0;
+  filter:
+    drop-shadow(0 -2px 0 var(--ink-line))
+    drop-shadow(2px 0 0 var(--ink-line))
+    drop-shadow(0 2px 0 var(--ink-line))
+    drop-shadow(0 4px 0 rgba(16, 16, 26, 0.32));
+}
+.ceiling-pipework::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -6px;
+  width: 42%;
+  height: 6px;
+  border-radius: 999px;
+  background: #202746;
+  box-shadow:
+    0 -2px 0 var(--ink-line),
+    0 2px 0 var(--ink-line),
+    0 4px 0 rgba(16, 16, 26, 0.32);
+}
+.ceiling-pipework::after {
+  content: "";
+  position: absolute;
+  right: 34%;
+  top: -9px;
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--ink-line);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, var(--amber-hot) 0 3px, #202746 4px);
+  box-shadow:
+    -58px 0 0 -2px var(--amber-hot),
+    -58px 0 0 0 var(--ink-line),
+    0 25px 0 -2px var(--phosphor),
+    0 25px 0 0 var(--ink-line);
+}
+.pipework-b {
+  top: 12%;
+  right: 10%;
+  width: 12%;
+  height: 8%;
+  transform: scaleX(-1);
+  opacity: 0.9;
+}
+.pipework-b::before {
+  width: 50%;
+}
+.pipework-b::after {
+  right: 42%;
+  box-shadow:
+    -48px 0 0 -2px var(--plasma),
+    -48px 0 0 0 var(--ink-line),
+    0 20px 0 -2px var(--amber-hot),
+    0 20px 0 0 var(--ink-line);
 }
 .room-hull .station {
   border: 3px solid var(--ink-line);
