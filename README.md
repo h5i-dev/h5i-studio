@@ -44,7 +44,7 @@ npm i -g @h5i/studio
 h5i-studio                       # opens the console in your browser
 ```
 
-Requirements: **Node ≥ 18**, and the **`h5i`** binary on `PATH` (not needed for `--demo`).
+Requirements: **Node ≥ 18**, and the [**`h5i`**](https://github.com/h5i-dev/h5i) binary on `PATH` (not needed for `--demo`).
 
 ---
 
