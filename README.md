@@ -12,7 +12,7 @@
 
 <h1 align="center">Don't read your agent team. Watch it.</h1>
 
-[`h5i`](https://github.com/h5i-dev/h5i) runs a **team of coding agents** such as Claude and Codex on the same task, sealed in their own sandboxes, then peer-reviews and verifies them and merges the one that passes. `h5i-studio` is the viewer that turns one of those runs into a live **starship bridge**: each agent is a crew member who reports in, seals a candidate, and speaks its *actual* reviews.
+[`h5i`](https://github.com/h5i-dev/h5i) runs a **team of AI agents** such as Claude and Codex on the same task, sealed in their own sandboxes, then peer-reviews and verifies them and merges the one that passes. `h5i-studio` is the viewer that turns one of those runs into a live **starship bridge**: each agent is a crew member who reports in, seals a candidate, and speaks its *actual* reviews.
 
 > ***Your agent team isn't a table of rows. It's a crew with a story.***
 
