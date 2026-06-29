@@ -2175,6 +2175,50 @@ button.btn:disabled {
     linear-gradient(180deg, #37406c 0%, #23294f 64%, #1b1d3f 100%);
   box-shadow: inset 0 -18px 0 rgba(16, 16, 26, 0.24), inset 0 0 0 2px rgba(255, 241, 197, 0.08);
 }
+.hatch-door {
+  position: absolute;
+  left: 50%;
+  top: 13%;
+  width: 17%;
+  height: 27%;
+  transform: translateX(-50%);
+  border: 5px solid var(--ink-line);
+  border-radius: 8px;
+  clip-path: polygon(18% 0, 82% 0, 100% 18%, 100% 76%, 82% 100%, 18% 100%, 0 76%, 0 18%);
+  background:
+    radial-gradient(circle at 50% 48%, var(--phosphor) 0 4px, transparent 5px),
+    linear-gradient(90deg, transparent 47%, rgba(16, 16, 26, 0.82) 47% 53%, transparent 53%),
+    linear-gradient(135deg, transparent 0 18%, rgba(255, 230, 109, 0.28) 18% 23%, transparent 23% 77%, rgba(255, 107, 181, 0.22) 77% 82%, transparent 82%),
+    linear-gradient(180deg, rgba(255, 241, 197, 0.2), transparent 34%),
+    linear-gradient(180deg, #39416f 0%, #222749 52%, #151832 100%);
+  box-shadow:
+    inset 0 0 0 4px rgba(255, 241, 197, 0.08),
+    inset 0 -12px 0 rgba(16, 16, 26, 0.28),
+    0 6px 0 rgba(16, 16, 26, 0.36);
+  opacity: 0.8;
+}
+.hatch-door::before,
+.hatch-door::after {
+  content: "";
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  height: 14%;
+  border: 3px solid rgba(16, 16, 26, 0.76);
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 230, 109, 0.84) 0 9px, rgba(16, 16, 26, 0.68) 9px 14px),
+    rgba(255, 241, 197, 0.12);
+}
+.hatch-door::before {
+  top: 18%;
+}
+.hatch-door::after {
+  bottom: 16%;
+  background:
+    linear-gradient(90deg, transparent 0 38%, rgba(78, 231, 255, 0.86) 38% 62%, transparent 62%),
+    rgba(255, 241, 197, 0.1);
+}
 .room-hull .viewport {
   top: 5%;
   border: 3px solid var(--ink-line);

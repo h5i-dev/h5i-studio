@@ -68,6 +68,7 @@ export function Bridge({
       {/* room backdrop layers */}
       <div className="room-space" aria-hidden />
       <div className="room-hull" aria-hidden>
+        <span className="hatch-door" />
         <span className="viewport vp1" />
         <span className="viewport vp2" />
         <span className="station st1" />
